@@ -39,12 +39,14 @@ import shutil
 for f in ('icon-180.png', 'icon-192.png', 'icon-512.png'):
     shutil.copy('dist/' + f, 'docs/' + f)
 json.dump({"name": "HAVN", "short_name": "HAVN", "id": "./", "description": "Rest, on demand. Private recovery rooms by the hour.", "start_url": "./", "scope": "./", "display": "standalone", "orientation": "portrait", "background_color": "#141414", "theme_color": "#141414", "icons": [{"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"}, {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}]}, open('docs/manifest.webmanifest', 'w'), indent=1)
-open('docs/sw.js', 'w').write('''const C = 'havn-' + %s;
+import time
+ver = time.strftime('%Y%m%d%H%M')
+open('docs/sw.js', 'w').write('''const C = 'havn-' + VER;
 self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(C).then(c => c.addAll(['./', './index.html', './icon-180.png', './icon-192.png', './icon-512.png', './manifest.webmanifest']))); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET' || new URL(e.request.url).origin !== location.origin) return;
   e.respondWith(fetch(e.request).then(r => { const cp = r.clone(); caches.open(C).then(c => c.put(e.request, cp)); return r; }).catch(() => caches.match(e.request).then(m => m || caches.match('./index.html'))));
 });
-''' % repr(__import__('time').strftime('%%Y%%m%%d%%H%%M')))
+'''.replace('VER', repr(ver)))
 print('artifact.html', len(body)//1024, 'KB ·', 'index.html', len(full)//1024, 'KB')
