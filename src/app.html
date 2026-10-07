@@ -1,0 +1,721 @@
+<title>HAVN</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap">
+<style>
+/* Layout: one phone column (max 440px) centred on larger screens; every screen is a flex column with its own scroll area and a bottom bar; splash and the in-room screen use the dark palette, everything else the off-white paper. */
+:root{
+  --paper:#F4F2EE; --ink:#141414; --grey:#6F6B66; --hair:#D6D2CB; --map:#E6E2DB; --verm:#C9251B; --white:#FFFFFF;
+  --dk:#141414; --dk2:#1C1B19; --dk-text:#F4F2EE; --dk-grey:#A8A39C; --dk-hair:#3A3733;
+  --sans:"Helvetica Neue",Helvetica,Inter,Arial,sans-serif;
+  --serif:Georgia,"Times New Roman",Times,serif;
+  --bg:var(--paper); --fg:var(--ink);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-weight:300;font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow:hidden;transition:background .3s}
+body.dark{--bg:var(--dk)}
+#app{position:relative;height:100%;max-width:440px;margin:0 auto;overflow:hidden;background:var(--paper)}
+@media (min-width:480px){#app{border-left:1px solid var(--hair);border-right:1px solid var(--hair)}body.dark #app{border-color:var(--dk-hair)}}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;background:var(--paper);color:var(--ink)}
+.screen.active{display:flex;animation:in .26s ease}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.screen.dark{background:var(--dk);color:var(--dk-text)}
+.scroll{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.pad{padding:0 20px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 8px;min-height:52px;flex-shrink:0}
+.topbar .lab.c{flex:1;text-align:center;padding:0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wm{font-family:var(--serif);letter-spacing:.32em;font-size:15px;font-weight:400;text-indent:.32em}
+.wm.big{font-size:56px;letter-spacing:.28em;text-indent:.28em;line-height:1}
+.lab{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);font-weight:400}
+.screen.dark .lab{color:var(--dk-grey)}
+h1{font-weight:300;font-size:28px;line-height:1.15;letter-spacing:-.01em;margin:6px 0 0;text-wrap:balance}
+h1 b{font-weight:500}
+h2{font-weight:500;font-size:15px;margin:0}
+.sub{color:var(--grey);margin-top:6px;line-height:1.5}
+.screen.dark .sub{color:var(--dk-grey)}
+.sec{margin-top:28px}
+.sec .lab{display:block;margin-bottom:10px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--hair)}
+.rows .row:last-child{border-bottom:1px solid var(--hair)}
+.screen.dark .row{border-color:var(--dk-hair)}
+.row .n{font-weight:500}
+.row .d{color:var(--grey);font-size:13px;margin-top:2px}
+.screen.dark .row .d{color:var(--dk-grey)}
+.row .r{text-align:right;flex-shrink:0}
+.row.tap{cursor:pointer}
+.row.tap:active{opacity:.6}
+.acc{color:var(--verm);font-weight:500}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--verm);margin-right:6px;vertical-align:1px}
+.dot.off{background:#B5B0A8}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,.room:focus-visible,.row.tap:focus-visible{outline:2px solid var(--verm);outline-offset:2px}
+.btn{display:block;width:100%;background:var(--verm);color:#fff;text-align:center;font-weight:400;font-size:15px;letter-spacing:.03em;padding:16px;border-radius:999px;transition:opacity .15s}
+.btn:active{opacity:.8}
+.btn[disabled]{background:#B5B0A8;cursor:default}
+.btn.ghost{background:none;border:1px solid var(--ink);color:var(--ink)}
+.screen.dark .btn.ghost{border-color:var(--dk-text);color:var(--dk-text)}
+.btn.sm{display:inline-block;width:auto;padding:9px 16px;font-size:13px}
+.link{color:var(--grey);text-decoration:underline;text-underline-offset:3px;font-size:13px}
+.screen.dark .link{color:var(--dk-grey)}
+.bar{padding:12px 20px calc(16px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--hair);background:var(--paper);flex-shrink:0}
+.screen.dark .bar{background:var(--dk);border-color:var(--dk-hair)}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{border:1px solid var(--hair);border-radius:999px;padding:8px 14px;font-size:13px;color:var(--ink);background:var(--paper);white-space:nowrap}
+.pill.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.screen.dark .pill{border-color:var(--dk-hair);color:var(--dk-text);background:transparent}
+.screen.dark .pill.on{background:var(--dk-text);color:var(--dk);border-color:var(--dk-text)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 20px 8px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips .pill{flex-shrink:0}
+.back{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--hair);background:var(--paper);color:var(--ink)}
+.back svg{width:16px;height:16px}
+.avatar{width:36px;height:36px;border-radius:50%;border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.1em;font-weight:500}
+img{max-width:100%;display:block}
+.hero{position:relative;height:260px;background:var(--dk2)}
+.hero img{width:100%;height:100%;object-fit:cover}
+.hero .back{position:absolute;left:16px;top:calc(14px + env(safe-area-inset-top,0px))}
+.thumb{width:92px;height:68px;object-fit:cover;flex-shrink:0;background:var(--dk2)}
+.typerow{display:flex;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--hair);cursor:pointer;width:100%;text-align:left}
+.typerow:last-child{border-bottom:1px solid var(--hair)}
+.typerow:active{opacity:.6}
+.typerow .t{flex:1;min-width:0;display:block}
+.typerow .tt{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.typerow .h2{font-weight:500}
+.typerow .m,.typerow .p{display:block}
+.typerow .p{font-size:13px;margin-top:4px}
+.typerow .m{color:var(--grey);font-size:13px;margin-top:2px}
+/* map */
+.map{display:block;width:100%;height:auto;background:var(--map);margin-top:16px}
+.map text{font-family:var(--sans);font-size:9px;letter-spacing:.08em;fill:var(--ink);font-weight:400}
+.map .mk{cursor:pointer}
+/* station schematic */
+.plan{margin-top:6px;border:1px solid var(--hair);padding:10px;background:var(--white);overflow-x:auto}
+.plan .grid{display:grid;grid-template-columns:54px repeat(6,minmax(0,1fr));grid-template-rows:auto 22px auto;gap:4px;min-width:290px}
+.plan .lobby{grid-row:1/4;border:1px solid var(--hair);background:var(--map);display:flex;flex-direction:column;justify-content:space-between;padding:5px;font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--grey);line-height:1.3}
+.plan .corr{grid-column:2/8;grid-row:2;border-top:1px dashed var(--hair);border-bottom:1px dashed var(--hair);display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+.room{aspect-ratio:1/1.2;min-width:0;overflow:hidden;border:1px solid var(--hair);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:500;background:var(--paper);color:var(--ink);position:relative;padding:0;letter-spacing:.01em}
+.room small{font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--grey);font-weight:400;margin-top:3px}
+.room.occ{background:var(--map);color:#B5B0A8;border-color:var(--map);cursor:default}
+.room.occ small{color:#B5B0A8}
+.room.on{background:var(--verm);color:#fff;border-color:var(--verm)}
+.room.on small{color:rgba(255,255,255,.75)}
+.room.dim{opacity:.45}
+.room::after{content:"";position:absolute;left:50%;width:10px;height:2px;background:var(--ink);margin-left:-5px}
+.room.top::after{bottom:-1px}
+.room.bot::after{top:-1px}
+.room.occ::after{background:#B5B0A8}
+.room.on::after{background:#fff}
+.legend{display:flex;gap:16px;margin-top:10px;font-size:11px;color:var(--grey)}
+.legend i{display:inline-block;width:10px;height:10px;border:1px solid var(--hair);vertical-align:-1px;margin-right:5px;background:var(--paper)}
+.legend i.o{background:var(--map);border-color:var(--map)}
+.legend i.s{background:var(--verm);border-color:var(--verm)}
+/* summary */
+.sum .row{padding:10px 0}
+.sum .tot{font-size:22px;font-weight:300}
+/* steps */
+.steps{counter-reset:s}
+.step{display:flex;gap:14px;padding:12px 0;border-top:1px solid var(--hair);counter-increment:s}
+.step::before{content:counter(s,decimal-leading-zero);font-size:11px;letter-spacing:.1em;color:var(--grey);margin-top:3px;font-variant-numeric:tabular-nums}
+.steps .step:last-child{border-bottom:1px solid var(--hair)}
+/* big numbers */
+.big{font-weight:300;font-size:64px;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin-top:10px}
+.big.md{font-size:48px}
+/* unlock */
+.lockwrap{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.lock{position:relative;width:200px;height:200px;touch-action:none;cursor:pointer;border-radius:50%}
+.lock:focus-visible{outline:2px solid var(--verm);outline-offset:8px}
+.lock svg{width:200px;height:200px;display:block}
+.lock .ring{fill:none;stroke:var(--hair);stroke-width:1.5}
+.lock .prog{fill:none;stroke:var(--verm);stroke-width:3;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;stroke-dasharray:597;stroke-dashoffset:597}
+.lock .ico{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px}
+.lock .ico svg{width:34px;height:34px}
+.lock .ico span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey)}
+.lock.done .prog{stroke-dashoffset:0}
+.lock.done .ico span{color:var(--verm)}
+.status{display:flex;align-items:center;gap:8px;color:var(--grey);font-size:13px;margin-top:28px}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--verm);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+#qr{margin-top:20px;background:#fff;padding:14px;display:inline-block}
+#qr svg{display:block;width:160px;height:160px}
+/* in-room controls */
+.ctl{padding:16px 0;border-top:1px solid var(--dk-hair)}
+.ctl:last-child{border-bottom:1px solid var(--dk-hair)}
+.ctl .h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.ctl .v{font-weight:400}
+.step2{display:flex;align-items:center;gap:18px}
+.step2 button{width:40px;height:40px;border-radius:50%;border:1px solid var(--dk-hair);color:var(--dk-text);font-size:20px;font-weight:300;display:flex;align-items:center;justify-content:center}
+.step2 .val{font-size:28px;font-weight:300;min-width:92px;text-align:center;font-variant-numeric:tabular-nums}
+.sw{width:46px;height:26px;border-radius:999px;border:1px solid var(--dk-hair);position:relative;flex-shrink:0;transition:background .2s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--dk-grey);transition:transform .2s,background .2s}
+.sw.on{background:var(--dk-text);border-color:var(--dk-text)}
+.sw.on::after{transform:translateX(20px);background:var(--dk)}
+.banner{height:150px;overflow:hidden;position:relative;margin-top:18px}
+.banner img{width:100%;height:100%;object-fit:cover}
+.banner .glow{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 40%,rgba(201,37,27,.55),transparent 60%);opacity:0;transition:opacity .6s}
+.banner.red .glow{opacity:1}
+.shop{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shop button{border:1px solid var(--dk-hair);padding:12px;text-align:left;display:flex;flex-direction:column;gap:2px}
+.shop button b{font-weight:500;font-size:14px}
+.shop button span{color:var(--dk-grey);font-size:12px}
+.shop button.added{border-color:var(--dk-text)}
+.shop button.added b::after{content:" ·  added";color:var(--dk-grey);font-weight:300}
+/* sheet */
+.sheet{position:absolute;inset:0;background:rgba(20,20,20,.55);display:none;align-items:flex-end;z-index:5}
+.sheet.open{display:flex}
+.sheet .box{background:var(--paper);color:var(--ink);width:100%;padding:24px 20px calc(20px + env(safe-area-inset-bottom,0px));animation:up .25s ease}
+@keyframes up{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+.sheet .box .btn+.btn{margin-top:10px}
+/* rating */
+.rate{display:flex;gap:10px;margin-top:12px}
+.rate button{width:28px;height:28px;border-radius:50%;border:1px solid var(--hair)}
+.rate button.on{background:var(--verm);border-color:var(--verm)}
+/* tabs */
+#tabs{position:absolute;left:0;right:0;bottom:0;display:none;justify-content:space-around;border-top:1px solid var(--hair);background:var(--paper);padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));z-index:3}
+#tabs.show{display:flex}
+#tabs button{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);width:33%}
+#tabs button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+#tabs button.on{color:var(--ink)}
+.tabpad{padding-bottom:96px}
+/* toast */
+#toast{position:absolute;left:50%;bottom:calc(100px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:9;white-space:nowrap;max-width:90%}
+#toast.show{opacity:1;transform:translateX(-50%)}
+body.dark #toast{background:var(--paper);color:var(--ink)}
+/* splash */
+#s-splash{align-items:center;justify-content:center;cursor:pointer}
+#s-splash .claim{color:var(--verm);font-size:18px;margin-top:22px;font-weight:300}
+#s-splash .foot{position:absolute;bottom:calc(28px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center}
+.hint{font-size:12px;color:var(--grey);line-height:1.5}
+.screen.dark .hint{color:var(--dk-grey)}
+.stay{padding:14px 0;border-top:1px solid var(--hair)}
+.stay:last-child{border-bottom:1px solid var(--hair)}
+.stay .l1{display:flex;justify-content:space-between;font-weight:500}
+.stay .l2{display:flex;justify-content:space-between;color:var(--grey);font-size:13px;margin-top:3px}
+.current{border:1px solid var(--ink);padding:16px;margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.inline-btns{display:flex;gap:10px;margin-top:14px}
+.inline-btns .btn{flex:1}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div id="app">
+
+<!-- SPLASH -->
+<section class="screen dark" id="s-splash" data-dark="1">
+  <div class="wm big">HAVN</div>
+  <div class="claim">Rest, on demand.</div>
+  <div class="foot"><span class="lab">Tap to begin</span></div>
+</section>
+
+<!-- HOME -->
+<section class="screen" id="s-home">
+  <div class="scroll tabpad">
+    <div class="topbar"><span class="wm">HAVN</span><button class="avatar" data-go="s-account" aria-label="Account">RK</button></div>
+    <div class="pad">
+      <span class="lab" id="home-eyebrow">Good evening · Berlin</span>
+      <h1 id="home-h1"></h1>
+    </div>
+    <div class="chips" id="cities" style="margin-top:18px"></div>
+    <div id="map"></div>
+    <div class="pad sec" style="margin-top:22px">
+      <span class="lab">Stations</span>
+      <div class="rows" id="stations"></div>
+    </div>
+    <div class="pad" style="margin-top:18px"><p class="hint">Stations open 24/7. Holds are free for 10 minutes while you walk over. Member rate applied automatically.</p></div>
+  </div>
+</section>
+
+<!-- STATION -->
+<section class="screen" id="s-station">
+  <div class="scroll">
+    <div class="hero"><img id="st-img" alt=""><button class="back" data-back aria-label="Back"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 2 4 8l6 6"/></svg></button></div>
+    <div class="pad" style="padding-top:22px">
+      <span class="lab" id="st-eyebrow"></span>
+      <h1 id="st-name"></h1>
+      <div class="sub" id="st-meta"></div>
+      <div class="pills" id="st-amen" style="margin-top:16px"></div>
+      <div class="sec">
+        <span class="lab">Choose your room</span>
+        <div id="st-types"></div>
+      </div>
+      <div class="sec" style="margin-bottom:28px">
+        <span class="lab">How it works</span>
+        <div class="rows">
+          <div class="row"><div><div class="n">Hold</div><div class="d">Room held free for 10 minutes while you walk over.</div></div></div>
+          <div class="row"><div><div class="n">Unlock</div><div class="d">Phone or QR at the door. No key, no desk.</div></div></div>
+          <div class="row"><div><div class="n">Leave</div><div class="d">Pay for the time you booked. Room resets automatically.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section class="screen" id="s-book">
+  <div class="topbar"><button class="back" data-back aria-label="Back"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 2 4 8l6 6"/></svg></button><span class="lab c" id="bk-station"></span><span style="width:36px"></span></div>
+  <div class="scroll">
+    <div class="pad">
+      <h1 id="bk-type"></h1>
+      <div class="sub" id="bk-desc"></div>
+      <div class="sec"><span class="lab">Start</span><div class="pills" id="bk-start"></div></div>
+      <div class="sec"><span class="lab">Duration</span><div class="pills" id="bk-dur"></div></div>
+      <div class="sec"><span class="lab">Your room</span>
+        <div class="plan" id="bk-plan"></div>
+        <div class="legend"><span><i></i>Available</span><span><i class="o"></i>Occupied</span><span><i class="s"></i>Yours</span></div>
+      </div>
+      <div class="sec sum" style="margin-bottom:24px"><span class="lab">Summary</span><div class="rows" id="bk-sum"></div></div>
+    </div>
+  </div>
+  <div class="bar"><button class="btn" id="bk-cta">Hold room</button></div>
+</section>
+
+<!-- HOLD -->
+<section class="screen" id="s-hold">
+  <div class="topbar"><span style="width:36px"></span><span class="lab c">Your hold</span><button class="avatar" data-go="s-account" aria-label="Account">RK</button></div>
+  <div class="scroll">
+    <div class="pad">
+      <span class="lab" id="hd-eyebrow">Held for you</span>
+      <div class="big" id="hd-count">10:00</div>
+      <div class="sub" id="hd-sub"></div>
+      <div class="sec"><span class="lab">Room</span>
+        <div class="rows">
+          <div class="row"><div><div class="n" id="hd-room"></div><div class="d" id="hd-roomd"></div></div><div class="r" id="hd-price"></div></div>
+          <div class="row"><div><div class="n" id="hd-station"></div><div class="d" id="hd-stationd"></div></div><div class="r" id="hd-walk"></div></div>
+        </div>
+      </div>
+      <div class="sec" style="margin-bottom:24px"><span class="lab">Find the door</span><div class="steps" id="hd-steps"></div>
+        <div class="status" style="margin-top:16px"><span class="pulse"></span><span>Phone key ready · Bluetooth on</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="bar"><button class="btn" data-go="s-unlock">I'm at the door</button><div style="text-align:center;margin-top:12px"><button class="link" id="hd-release">Release room</button></div></div>
+</section>
+
+<!-- UNLOCK -->
+<section class="screen" id="s-unlock">
+  <div class="topbar"><button class="back" data-back aria-label="Back"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 2 4 8l6 6"/></svg></button><span class="lab c" id="ul-eyebrow"></span><span style="width:36px"></span></div>
+  <div class="pad"><h1 id="ul-h1">Hold to unlock.</h1><div class="sub" id="ul-sub">Keep your finger on the key until the ring closes.</div></div>
+  <div class="lockwrap">
+    <div class="lock" id="lock" role="button" tabindex="0" aria-label="Hold to unlock">
+      <svg viewBox="0 0 200 200"><circle class="ring" cx="100" cy="100" r="95"/><circle class="prog" cx="100" cy="100" r="95"/></svg>
+      <div class="ico"><svg id="lock-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><rect x="5" y="10.5" width="14" height="10" rx="1"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg><span id="lock-txt">Hold</span></div>
+    </div>
+    <div class="status"><span class="pulse"></span><span id="ul-status">Door in range · connected</span></div>
+    <div id="qr" hidden></div>
+    <div style="margin-top:24px"><button class="link" id="ul-qr">Use QR code instead</button></div>
+  </div>
+</section>
+
+<!-- ROOM (resting) -->
+<section class="screen dark" id="s-room" data-dark="1">
+  <div class="scroll">
+    <div class="topbar"><span class="wm">HAVN</span><span class="lab" id="rm-eyebrow"></span></div>
+    <div class="pad">
+      <span class="lab">Resting</span>
+      <div class="big md" id="rm-clock">00:00:00</div>
+      <div class="sub" id="rm-ends"></div>
+    </div>
+    <div class="banner" id="rm-banner"><img id="rm-img" alt=""><div class="glow"></div></div>
+    <div class="pad">
+      <div class="ctl"><div class="h"><span class="lab">Light</span><span class="v" id="rm-light-v"></span></div><div class="pills" id="rm-light"></div></div>
+      <div class="ctl"><div class="h"><span class="lab">Climate</span><span class="v">Fresh air · filtered</span></div><div class="step2"><button id="rm-tdown" aria-label="Cooler">−</button><span class="val" id="rm-temp">21 °C</span><button id="rm-tup" aria-label="Warmer">+</button></div></div>
+      <div class="ctl"><div class="h"><span class="lab">Sound</span><span class="v" id="rm-sound-v"></span></div><div class="pills" id="rm-sound"></div></div>
+      <div class="ctl"><div class="h" style="margin:0"><div><span class="lab">Wake-up</span><div class="v" style="margin-top:4px;font-size:22px;font-weight:300" id="rm-wake"></div></div><div class="step2" style="gap:10px"><button id="rm-wdown" aria-label="Earlier">−</button><button id="rm-wup" aria-label="Later">+</button></div></div></div>
+      <div class="ctl"><div class="h" style="margin:0"><div><div class="v">Door locked from inside</div><div class="hint" style="margin-top:2px">Only you can open it. Staff never enter during a session.</div></div><button class="sw on" id="rm-door" aria-label="Door lock"></button></div></div>
+      <div class="ctl"><div class="h" style="margin:0"><div><div class="v">Do not disturb</div><div class="hint" style="margin-top:2px">No notifications until your wake-up time.</div></div><button class="sw on" id="rm-dnd" aria-label="Do not disturb"></button></div></div>
+      <div class="ctl"><div class="h"><span class="lab">Extend</span><span class="v" id="rm-ext-v"></span></div><div class="pills" id="rm-ext"></div></div>
+      <div class="ctl"><div class="h"><span class="lab">Station shop</span><span class="v hint">Pickup hatch · lobby</span></div><div class="shop" id="rm-shop"></div></div>
+    </div>
+    <div class="pad" style="padding:24px 20px 28px"><button class="btn ghost" id="rm-end">End session</button></div>
+  </div>
+</section>
+
+<!-- CHECKOUT -->
+<section class="screen" id="s-checkout">
+  <div class="topbar"><span class="wm">HAVN</span><span class="lab">Receipt</span></div>
+  <div class="scroll">
+    <div class="pad">
+      <span class="lab">Session ended</span>
+      <h1 id="co-h1">Thank you, Richard.</h1>
+      <div class="sub" id="co-sub"></div>
+      <div class="sec sum"><span class="lab">Your stay</span><div class="rows" id="co-rows"></div></div>
+      <div class="sec"><span class="lab">How was your rest?</span><div class="rate" id="co-rate"></div></div>
+      <div class="sec" style="margin-bottom:24px"><p class="hint" id="co-reset"></p></div>
+    </div>
+  </div>
+  <div class="bar"><button class="btn" id="co-done">Done</button><div style="text-align:center;margin-top:12px"><button class="link" id="co-again">Book this station again</button></div></div>
+</section>
+
+<!-- STAYS -->
+<section class="screen" id="s-stays">
+  <div class="scroll tabpad">
+    <div class="topbar"><span class="wm">HAVN</span><button class="avatar" data-go="s-account" aria-label="Account">RK</button></div>
+    <div class="pad">
+      <span class="lab">Your stays</span>
+      <h1 id="sy-h1"></h1>
+      <div id="sy-current"></div>
+      <div class="sec"><span class="lab">Past</span><div id="sy-list"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCOUNT -->
+<section class="screen" id="s-account">
+  <div class="scroll tabpad">
+    <div class="topbar"><span class="wm">HAVN</span><span class="lab">Account</span></div>
+    <div class="pad">
+      <div style="display:flex;align-items:center;gap:16px"><div class="avatar" style="width:56px;height:56px;font-size:14px">RK</div><div><h1 style="margin:0;font-size:24px">Richard Kirschstein</h1><div class="sub" style="margin-top:2px">Personal member · since September 2026</div></div></div>
+      <div class="sec"><div class="rows">
+        <div class="row"><div><div class="n">Membership</div><div class="d">Personal member · €39 / month · −20% on every stay, priority holds</div></div><div class="r acc" style="font-size:13px">Active</div></div>
+        <div class="row"><div><div class="n">Payment</div><div class="d">Apple Pay · Visa •••• 4421 · charged when the session ends</div></div></div>
+        <div class="row"><div><div class="n">Identity</div><div class="d">Verified · passport · registration for overnight stays done once</div></div></div>
+        <div class="row"><div><div class="n">Room presets</div><div class="d">Warm light · 21 °C · white noise · wake-up 06:30</div></div></div>
+        <div class="row"><div><div class="n">Notifications</div><div class="d">Hold reminders, wake-up, receipts</div></div></div>
+        <div class="row"><div><div class="n">Contact</div><div class="d">richard@havn.rest · +49 176 636 458 34</div></div></div>
+      </div></div>
+      <div class="sec"><p class="hint">Investor demo · October 2026. Stations, rooms, availability and payments are simulated. The journey — find, hold, unlock, rest, leave — is the one the product ships with.</p>
+      <div style="margin-top:14px"><button class="link" id="ac-reset">Reset demo</button></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- shared -->
+<nav id="tabs">
+  <button data-tab="s-home" class="on"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg>Nearby</button>
+  <button data-tab="s-stays"><svg viewBox="0 0 24 24"><path d="M3 18V8h18v10M3 12h18M7 8V6h4v2"/></svg>Stays</button>
+  <button data-tab="s-account"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>Account</button>
+</nav>
+<div class="sheet" id="sheet"><div class="box" id="sheet-box"></div></div>
+<div id="toast"></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+const IMG = {{IMAGES}};
+const QRS = {{QRS}};
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const H = 3600000, M = 60000;
+const eur = n => '€' + n.toFixed(2);
+const pad2 = n => String(n).padStart(2, '0');
+const clock = ms => { const d = new Date(ms); return pad2(d.getHours()) + ':' + pad2(d.getMinutes()); };
+const hms = ms => { const s = Math.max(0, Math.floor(ms / 1000)); return pad2(Math.floor(s / 3600)) + ':' + pad2(Math.floor(s / 60) % 60) + ':' + pad2(s % 60); };
+const ms2 = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return pad2(Math.floor(s / 60)) + ':' + pad2(s % 60); };
+const dur = ms => { const m = Math.round(ms / M); const h = Math.floor(m / 60); return h ? h + ' h' + (m % 60 ? ' ' + (m % 60) + ' min' : '') : m + ' min'; };
+const dateS = ms => new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+const TYPES = {
+  single: { key: 'single', name: 'Single Cabin', dims: '2.0 × 2.4 m', short: 'Single', desc: 'Bed 200 × 100 cm, desk and chair, hooks, luggage space under the bed. Soundproofed, fresh-air ventilation.', img: IMG.single_c, big: IMG.single_c, extend: 12,
+    durs: [{ k: '2h', l: '2 h', h: 2, p: 29 }, { k: '4h', l: '4 h', h: 4, p: 45 }, { k: 'n', l: 'Night · 8 h', h: 8, p: 69, night: true }, { k: 'd', l: 'Day pass · 12 h', h: 12, p: 99 }] },
+  double: { key: 'double', name: 'Double Cabin', dims: '2.4 × 2.4 m', short: 'Double', desc: 'Bed 200 × 160 cm, hooks and luggage space for two. The same quiet shell, one size up.', img: IMG.double_c, big: IMG.double_big, extend: 15,
+    durs: [{ k: '2h', l: '2 h', h: 2, p: 39 }, { k: '4h', l: '4 h', h: 4, p: 59 }, { k: 'n', l: 'Night · 8 h', h: 8, p: 89, night: true }, { k: 'd', l: 'Day pass · 12 h', h: 12, p: 129 }] },
+  health: { key: 'health', name: 'Health Pod', dims: '2.0 × 2.4 m', short: 'Health', desc: 'Therapy bed with red-light panel (630–850 nm), 20-minute protocols, sound and scent programs. Recovery as a protocol, not a feature.', img: IMG.health_c, big: IMG.health_big, extend: 17,
+    durs: [{ k: '1h', l: '1 h', h: 1, p: 19 }, { k: '2h', l: '2 h', h: 2, p: 35 }, { k: '3h', l: '3 h', h: 3, p: 49 }] }
+};
+// 11 rooms per station: 5 Single, 4 Double, 2 Health Pod. Top row and bottom row along one corridor, lobby at the left.
+const ROOMS = [
+  { id: 'S-01', t: 'single', pos: 'top' }, { id: 'S-02', t: 'single', pos: 'top' }, { id: 'S-03', t: 'single', pos: 'top' }, { id: 'S-04', t: 'single', pos: 'top' }, { id: 'S-05', t: 'single', pos: 'top' }, { id: 'H-01', t: 'health', pos: 'top' },
+  { id: 'D-01', t: 'double', pos: 'bot' }, { id: 'D-02', t: 'double', pos: 'bot' }, { id: 'D-03', t: 'double', pos: 'bot' }, { id: 'D-04', t: 'double', pos: 'bot' }, { id: 'H-02', t: 'health', pos: 'bot' }
+];
+const CITIES = ['Berlin', 'Hamburg', 'München', 'Frankfurt'];
+const AMEN = ['Private showers', 'Lockers', 'Vending', 'Wi-Fi', 'Filtered air'];
+const STATIONS = [
+  { id: 'ber-mitte', city: 'Berlin', name: 'Mitte', addr: 'Torstraße 140, 10119 Berlin', floor: '2nd floor · office building', walk: 4, occ: ['S-02', 'D-01', 'D-04', 'H-01'], img: IMG.hero, x: .46, y: .40, steps: ['Enter the lobby at Torstraße 140, right of the reception', 'Lift to the 2nd floor', 'Corridor to the left · the HAVN door opens with your phone', 'Lockers and showers are in the lobby, your room is on the corridor'] },
+  { id: 'ber-kreuz', city: 'Berlin', name: 'Kreuzberg', addr: 'Ritterstraße 12, 10969 Berlin', floor: 'Ground floor · former retail unit', walk: 12, occ: ['S-04', 'D-02'], img: IMG.hero, x: .62, y: .68, steps: ['Street entrance on Ritterstraße, the door opens with your phone', 'Lobby with lockers and showers straight ahead', 'Your room is on the corridor behind the lobby'] },
+  { id: 'ber-hbf', city: 'Berlin', name: 'Hauptbahnhof', addr: 'Europaplatz 1, 10557 Berlin', floor: 'Level −1 · transit hall · stacked modules', walk: 18, transit: '9 min by S-Bahn', occ: ['S-01', 'S-02', 'S-05', 'D-01', 'D-03', 'D-04', 'H-02'], img: IMG.stack, x: .30, y: .30, steps: ['From the main hall take the escalator to level −1', 'Follow the signs to the Washingtonplatz exit', 'HAVN is on the left behind the bakery · phone opens the door', 'Upper rooms are reached via the lit stair'] },
+  { id: 'hh-hafen', city: 'Hamburg', name: 'HafenCity', addr: 'Überseeallee 10, 20457 Hamburg', floor: '1st floor · office building', walk: 6, occ: ['S-03', 'D-02', 'D-03', 'H-01', 'H-02'], img: IMG.hero, x: .52, y: .56, steps: ['Lobby entrance on Überseeallee', 'Stairs or lift to the 1st floor', 'HAVN door on the right · opens with your phone'] },
+  { id: 'hh-hbf', city: 'Hamburg', name: 'Hauptbahnhof', addr: 'Hachmannplatz 16, 20099 Hamburg', floor: 'Wandelhalle level · transit hall', walk: 11, occ: ['S-01', 'S-02', 'S-03', 'S-04', 'D-01', 'D-02', 'D-04', 'H-01'], img: IMG.stack, x: .40, y: .34, steps: ['Enter the Wandelhalle from Hachmannplatz', 'HAVN is at the far end, next to the lockers', 'Phone opens the door'] },
+  { id: 'muc-apt', city: 'München', name: 'Flughafen', addr: 'Terminal 2 · Satellite, 85356 München', floor: 'Airside · partner site', walk: 9, occ: ['S-05', 'D-03'], img: IMG.hero, x: .70, y: .22, steps: ['After security take the shuttle to the Satellite', 'Level 05, between gates K and L', 'HAVN door opens with your phone · boarding pass not needed'] },
+  { id: 'muc-hbf', city: 'München', name: 'Hauptbahnhof', addr: 'Bayerstraße 10a, 80335 München', floor: 'Ground floor · station forecourt', walk: 7, occ: ['S-01', 'D-01', 'D-02'], img: IMG.hero, x: .44, y: .58, steps: ['Exit the station towards Bayerstraße', 'HAVN is the dark façade with the lit door frame', 'Phone opens the door'] },
+  { id: 'fra-apt', city: 'Frankfurt', name: 'Flughafen', addr: 'The Squaire, 60549 Frankfurt', floor: 'Level 2 · partner site', walk: 8, occ: ['S-02', 'S-04', 'D-02', 'H-01'], img: IMG.hero, x: .34, y: .64, steps: ['From Terminal 1 follow the signs to The Squaire', 'Level 2, east wing', 'HAVN door opens with your phone'] },
+  { id: 'fra-bank', city: 'Frankfurt', name: 'Bankenviertel', addr: 'Taunusanlage 8, 60329 Frankfurt', floor: '3rd floor · office tower', walk: 5, occ: ['S-01', 'S-03', 'D-01', 'D-04', 'H-02'], img: IMG.hero, x: .58, y: .40, steps: ['Tower lobby on Taunusanlage, say HAVN at the desk or walk through with your phone', 'Lift to the 3rd floor', 'Corridor right · HAVN door opens with your phone'] }
+];
+const SHOP = [{ id: 'rest', n: 'Rest kit', d: 'Eye mask, earplugs, sleep tea', p: 9 }, { id: 'fresh', n: 'Fresh kit', d: 'Towel, toothbrush, shower gel', p: 7 }, { id: 'fuel', n: 'Fuel', d: 'Still water, protein bar', p: 4 }, { id: 'work', n: 'Work kit', d: 'Charger, notebook, pen', p: 12 }];
+const SEED_STAYS = [
+  { date: Date.parse('2026-09-28T22:10:00'), st: 'ber-mitte', room: 'S-02', type: 'single', dur: 8 * H, total: 55.2 },
+  { date: Date.parse('2026-09-15T13:00:00'), st: 'ber-hbf', room: 'H-01', type: 'health', dur: 2 * H, total: 28 },
+  { date: Date.parse('2026-09-02T17:30:00'), st: 'ber-kreuz', room: 'D-03', type: 'double', dur: 4 * H, total: 47.2 }
+];
+const MEMBER = 0.2;
+
+// ---------- state ----------
+let S = { city: 'Berlin', stays: SEED_STAYS.slice(), booking: null, session: null };
+const load = () => { try { const j = JSON.parse(localStorage.getItem('havn-demo') || 'null'); if (j && j.stays) S = j; } catch (e) {} };
+const save = () => { try { localStorage.setItem('havn-demo', JSON.stringify(S)); } catch (e) {} };
+const stationOf = id => STATIONS.find(s => s.id === id);
+const freeCount = (st, t) => ROOMS.filter(r => (!t || r.t === t) && !st.occ.includes(r.id)).length;
+
+// ---------- navigation ----------
+const stack = [];
+let current = null;
+function show(id) {
+  $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  const sc = $('#' + id);
+  document.body.classList.toggle('dark', !!sc.dataset.dark);
+  const tab = ['s-home', 's-stays', 's-account'].includes(id);
+  $('#tabs').classList.toggle('show', tab);
+  $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === id));
+  const scr = $('.scroll', sc); if (scr) scr.scrollTop = 0;
+  current = id;
+}
+function go(id, replace) {
+  if (id === 's-unlock') renderUnlock(); if (id === 's-stays') renderStays(); if (id === 's-home') renderHome(); if (id === 's-hold') renderHold(); if (id === 's-room') renderRoom();
+  if (current && !replace && !['s-home', 's-stays', 's-account'].includes(id)) stack.push(current); if (['s-home', 's-stays', 's-account'].includes(id)) stack.length = 0; show(id); }
+function back() { const p = stack.pop() || 's-home'; show(p); }
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]'); if (g) { go(g.dataset.go); return; }
+  if (e.target.closest('[data-back]')) { back(); return; }
+  const t = e.target.closest('[data-tab]'); if (t) { renderTab(t.dataset.tab); go(t.dataset.tab); }
+});
+function renderTab(id) { if (id === 's-home') renderHome(); if (id === 's-stays') renderStays(); }
+let toastT;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2400); }
+function sheet(html) { $('#sheet-box').innerHTML = html; $('#sheet').classList.add('open'); }
+function closeSheet() { $('#sheet').classList.remove('open'); }
+$('#sheet').addEventListener('click', e => { if (e.target === e.currentTarget) closeSheet(); });
+
+// ---------- home ----------
+function greeting() { const h = new Date().getHours(); return h < 5 ? 'Good night' : h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening'; }
+function mulberry(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function mapSvg(city) {
+  const seed = city.split('').reduce((a, c) => a * 31 + c.charCodeAt(0), 7) >>> 0;
+  const r = mulberry(seed); let s = '';
+  for (let i = 0; i < 9; i++) { const y = 10 + r() * 180, dy = (r() - .5) * 60; s += `<line x1="-10" y1="${y.toFixed(0)}" x2="370" y2="${(y + dy).toFixed(0)}" stroke="#F4F2EE" stroke-width="${(1 + r() * 2.5).toFixed(1)}"/>`; }
+  for (let i = 0; i < 9; i++) { const x = 10 + r() * 340, dx = (r() - .5) * 60; s += `<line x1="${x.toFixed(0)}" y1="-10" x2="${(x + dx).toFixed(0)}" y2="210" stroke="#F4F2EE" stroke-width="${(1 + r() * 2.5).toFixed(1)}"/>`; }
+  if (city !== 'München') s += `<path d="M-10 ${(120 + r() * 50).toFixed(0)} C 90 ${(60 + r() * 80).toFixed(0)}, 200 ${(150 + r() * 40).toFixed(0)}, 370 ${(70 + r() * 60).toFixed(0)}" fill="none" stroke="#D6D2CB" stroke-width="14" stroke-linecap="round" opacity=".9"/>`;
+  s += `<circle cx="180" cy="100" r="5" fill="#141414"/><circle cx="180" cy="100" r="11" fill="none" stroke="#141414" stroke-width="1" opacity=".35"/><text x="192" y="104">You</text>`;
+  STATIONS.filter(t => t.city === city).forEach(t => {
+    const x = t.x * 360, y = t.y * 200, free = freeCount(t);
+    s += `<g class="mk" data-st="${t.id}"><circle cx="${x}" cy="${y}" r="13" fill="#F4F2EE" opacity=".9"/><circle cx="${x}" cy="${y}" r="6" fill="${free ? '#C9251B' : '#B5B0A8'}"/><text x="${x + 14}" y="${y + 3.5}">${t.name} · ${free}</text></g>`;
+  });
+  return `<svg class="map" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid slice">${s}</svg>`;
+}
+function renderHome() {
+  const list = STATIONS.filter(s => s.city === S.city);
+  const total = list.reduce((a, s) => a + freeCount(s), 0);
+  const nearest = Math.min.apply(null, list.map(s => s.walk));
+  $('#home-eyebrow').textContent = greeting() + ' · ' + S.city;
+  $('#home-h1').innerHTML = `<b>${total} rooms</b> available near you.<br>Nearest in ${nearest} minutes.`;
+  $('#cities').innerHTML = CITIES.map(c => `<button class="pill${c === S.city ? ' on' : ''}" data-city="${c}">${c}</button>`).join('');
+  $('#map').innerHTML = mapSvg(S.city);
+  $('#stations').innerHTML = list.map(s => {
+    const f = freeCount(s); const minP = Math.min.apply(null, Object.values(TYPES).filter(t => freeCount(s, t.key)).map(t => t.durs[0].p));
+    return `<div class="row tap" data-st="${s.id}" tabindex="0"><div><div class="n">${s.name}</div><div class="d">${s.addr.split(',')[0]} · ${s.floor.split(' · ')[0]}${s.transit ? ' · ' + s.transit : ''}</div></div><div class="r"><div><span class="dot${f ? '' : ' off'}"></span>${f ? f + ' of 11 free' : 'Full'}</div><div class="d">${s.walk} min · ${f ? 'from €' + minP : 'next free 21:40'}</div></div></div>`;
+  }).join('');
+}
+$('#cities').addEventListener('click', e => { const b = e.target.closest('[data-city]'); if (!b) return; S.city = b.dataset.city; save(); renderHome(); });
+$('#s-home').addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; openStation(b.dataset.st); });
+$('#s-home').addEventListener('keydown', e => { if (e.key === 'Enter') { const b = e.target.closest('[data-st]'); if (b) openStation(b.dataset.st); } });
+
+// ---------- station ----------
+let curSt = null;
+function openStation(id) {
+  curSt = stationOf(id);
+  $('#st-img').src = curSt.img;
+  $('#st-eyebrow').textContent = `${curSt.city} · ${curSt.walk} min walk${curSt.transit ? ' · ' + curSt.transit : ''}`;
+  $('#st-name').textContent = curSt.name;
+  $('#st-meta').textContent = `${curSt.addr} · ${curSt.floor} · open 24/7`;
+  $('#st-amen').innerHTML = AMEN.map(a => `<span class="pill">${a}</span>`).join('');
+  $('#st-types').innerHTML = Object.values(TYPES).map(t => {
+    const f = freeCount(curSt, t.key), n = ROOMS.filter(r => r.t === t.key).length;
+    return `<button class="typerow" data-type="${t.key}" ${f ? '' : 'disabled style="opacity:.5"'}><img class="thumb" src="${t.img}" alt=""><span class="t"><span class="tt"><span class="h2">${t.name}</span><span class="hint">${t.dims}</span></span><span class="m">${f ? f + ' of ' + n + ' free now' : 'All ' + n + ' occupied'}</span><span class="p"><span class="acc">from €${t.durs[0].p} / ${t.durs[0].l}</span>${t.durs.find(d => d.night) ? ' · €' + t.durs.find(d => d.night).p + ' / night' : ''}</span></span></button>`;
+  }).join('');
+  go('s-station');
+}
+$('#st-types').addEventListener('click', e => { const b = e.target.closest('[data-type]'); if (b) openBook(b.dataset.type); });
+
+// ---------- book ----------
+let B = null;
+function openBook(type) {
+  const t = TYPES[type];
+  const firstFree = ROOMS.find(r => r.t === type && !curSt.occ.includes(r.id));
+  B = { type, dur: t.durs[0].k, start: 'now', room: firstFree ? firstFree.id : null };
+  renderBook(); go('s-book');
+}
+function renderBook() {
+  const t = TYPES[B.type]; const d = t.durs.find(x => x.k === B.dur);
+  $('#bk-station').textContent = `${curSt.city} ${curSt.name} · ${curSt.addr.split(',')[0]}`;
+  $('#bk-type').textContent = t.name;
+  $('#bk-desc').textContent = t.dims + ' · ' + t.desc;
+  const starts = [{ k: 'now', l: 'Now' }, { k: '1h', l: 'In 1 hour' }, { k: 'tonight', l: 'Tonight · 22:00' }];
+  $('#bk-start').innerHTML = starts.map(s => `<button class="pill${s.k === B.start ? ' on' : ''}" data-start="${s.k}">${s.l}</button>`).join('');
+  $('#bk-dur').innerHTML = t.durs.map(x => `<button class="pill${x.k === B.dur ? ' on' : ''}" data-dur="${x.k}">${x.l} · €${x.p}</button>`).join('');
+  const cell = r => { const occ = curSt.occ.includes(r.id); const on = r.id === B.room; return `<button class="room ${r.pos}${occ ? ' occ' : ''}${on ? ' on' : ''}${!occ && !on && r.t !== B.type ? ' dim' : ''}" data-room="${r.id}" ${occ ? 'disabled' : ''} aria-label="${r.id} ${TYPES[r.t].name}${occ ? ' occupied' : ''}">${r.id}<small>${TYPES[r.t].short}</small></button>`; };
+  $('#bk-plan').innerHTML = `<div class="grid"><div class="lobby"><span>Lobby</span><span>Showers<br>WC<br>Lockers<br>Vending</span></div>${ROOMS.filter(r => r.pos === 'top').map(cell).join('')}<div class="corr">Corridor</div>${ROOMS.filter(r => r.pos === 'bot').map(cell).join('')}</div>`;
+  const disc = d.p * MEMBER, tot = d.p - disc;
+  $('#bk-sum').innerHTML = `<div class="row"><div>${t.name} · ${d.l}</div><div class="r">${eur(d.p)}</div></div><div class="row"><div>Personal member −20%</div><div class="r">−${eur(disc)}</div></div><div class="row"><div><div class="n">Total</div><div class="d">${d.night ? 'incl. 7% VAT · overnight stay' : 'incl. 19% VAT'} · charged after your stay</div></div><div class="r tot">${eur(tot)}</div></div>`;
+  $('#bk-cta').textContent = B.room ? `Hold ${B.room} · ${eur(tot)}` : 'Choose a room';
+  $('#bk-cta').disabled = !B.room;
+}
+$('#s-book').addEventListener('click', e => {
+  const s = e.target.closest('[data-start]'); if (s) { B.start = s.dataset.start; renderBook(); return; }
+  const d = e.target.closest('[data-dur]'); if (d) { B.dur = d.dataset.dur; renderBook(); return; }
+  const r = e.target.closest('[data-room]'); if (r && !r.disabled) { const room = ROOMS.find(x => x.id === r.dataset.room); if (room.t !== B.type) { B.type = room.t; B.dur = TYPES[room.t].durs[0].k; } B.room = room.id; renderBook(); }
+});
+$('#bk-cta').addEventListener('click', () => {
+  const t = TYPES[B.type], d = t.durs.find(x => x.k === B.dur);
+  const now = Date.now();
+  const startAt = B.start === 'now' ? now : B.start === '1h' ? now + H : (() => { const x = new Date(); x.setHours(22, 0, 0, 0); if (x.getTime() < now) x.setDate(x.getDate() + 1); return x.getTime(); })();
+  S.booking = { st: curSt.id, type: B.type, dur: B.dur, room: B.room, startAt, holdUntil: B.start === 'now' ? now + 10 * M : startAt + 10 * M, price: d.p, hours: d.h, night: !!d.night };
+  save(); renderHold(); go('s-hold');
+  if (navigator.vibrate) navigator.vibrate(15);
+});
+
+// ---------- hold ----------
+function renderHold() {
+  const b = S.booking; if (!b) return; const st = stationOf(b.st), t = TYPES[b.type];
+  const later = b.startAt > Date.now() + M;
+  $('#hd-eyebrow').textContent = later ? 'Reserved' : 'Held for you';
+  $('#hd-sub').textContent = later ? `From ${clock(b.startAt)} · the room is yours for ${b.hours} h. Walk in any time after that, it opens with your phone.` : 'Your room stays free while you walk over. Nobody else can take it.';
+  $('#hd-room').textContent = `${b.room} · ${t.name}`;
+  $('#hd-roomd').textContent = `${t.dims} · ${b.hours} h · ends ${clock(b.startAt + b.hours * H)}`;
+  $('#hd-price').innerHTML = `<div>${eur(b.price * (1 - MEMBER))}</div><div class="d">member rate</div>`;
+  $('#hd-station').textContent = `${st.city} ${st.name}`;
+  $('#hd-stationd').textContent = `${st.addr} · ${st.floor}`;
+  $('#hd-walk').innerHTML = `<div>${st.walk} min</div><div class="d">walk</div>`;
+  $('#hd-steps').innerHTML = st.steps.map(s => `<div class="step"><div>${s}</div></div>`).join('');
+  tickHold();
+}
+function tickHold() {
+  const b = S.booking; if (!b) return;
+  const later = b.startAt > Date.now() + M;
+  if (later) { $('#hd-count').textContent = clock(b.startAt); return; }
+  const left = b.holdUntil - Date.now();
+  $('#hd-count').textContent = ms2(left);
+  if (left <= 0 && current === 's-hold') { S.booking = null; save(); toast('Hold expired. The room is free again.'); renderHome(); go('s-home'); }
+}
+$('#hd-release').addEventListener('click', () => { S.booking = null; save(); toast('Room released'); renderHome(); go('s-home'); });
+
+// ---------- unlock ----------
+const lock = $('#lock'), prog = $('.prog', lock);
+let holdStart = 0, raf = 0, unlocked = false;
+const CIRC = 597;
+function setProg(p) { prog.style.strokeDashoffset = String(CIRC * (1 - p)); }
+function startHold(e) { if (unlocked) return; e.preventDefault(); try { lock.focus({ preventScroll: true }); } catch (x) {} holdStart = performance.now(); $('#lock-txt').textContent = 'Keep holding'; cancelAnimationFrame(raf); raf = requestAnimationFrame(stepHold); }
+function stepHold(now) { const p = Math.min(1, (now - holdStart) / 1300); setProg(p); if (p >= 1) finishUnlock(); else raf = requestAnimationFrame(stepHold); }
+function cancelHold() { if (unlocked || !holdStart) return; holdStart = 0; cancelAnimationFrame(raf); setProg(0); $('#lock-txt').textContent = 'Hold'; }
+function finishUnlock() {
+  unlocked = true; holdStart = 0; lock.classList.add('done'); $('#lock-txt').textContent = 'Door open';
+  $('#lock-ico').innerHTML = '<rect x="5" y="10.5" width="14" height="10" rx="1"/><path d="M8 10.5V7a4 4 0 0 1 8 0"/>';
+  $('#ul-h1').textContent = 'Welcome in.'; $('#ul-sub').textContent = `${S.booking.room} is open. Pull the handle, the door locks itself behind you.`; $('#ul-status').textContent = 'Unlocked · 1 of 1 doors';
+  if (navigator.vibrate) navigator.vibrate([25, 40, 60]);
+  setTimeout(() => { startSession(); }, 1500);
+}
+lock.addEventListener('pointerdown', startHold);
+lock.addEventListener('pointerup', cancelHold); lock.addEventListener('pointercancel', cancelHold); lock.addEventListener('pointerleave', cancelHold);
+lock.addEventListener('contextmenu', e => e.preventDefault());
+lock.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (!holdStart && !unlocked) { holdStart = performance.now(); raf = requestAnimationFrame(stepHold); } } });
+function renderUnlock() {
+  unlocked = false; holdStart = 0; lock.classList.remove('done'); setProg(0); $('#lock-txt').textContent = 'Hold';
+  $('#lock-ico').innerHTML = '<rect x="5" y="10.5" width="14" height="10" rx="1"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>';
+  $('#ul-h1').textContent = 'Hold to unlock.'; $('#ul-sub').textContent = 'Keep your finger on the key until the ring closes.';
+  const b = S.booking, st = stationOf(b.st);
+  $('#ul-eyebrow').textContent = `${b.room} · ${st.city} ${st.name}`; $('#ul-status').textContent = `Door ${b.room} in range · connected`;
+  $('#qr').hidden = true; $('#qr').innerHTML = ''; $('#ul-qr').textContent = 'Use QR code instead';
+}
+$('#ul-qr').addEventListener('click', () => {
+  const q = $('#qr');
+  if (!q.hidden) { q.hidden = true; q.innerHTML = ''; $('#ul-qr').textContent = 'Use QR code instead'; return; }
+  q.hidden = false; q.innerHTML = '';
+  q.innerHTML = QRS[S.booking.room] || '';
+  $('#ul-qr').textContent = 'Hide QR code · hold the reader at the door';
+});
+
+// ---------- session ----------
+const LIGHTS = ['Off', 'Dim', 'Warm', 'Bright'], SOUNDS = ['Silence', 'White noise', 'Rain', 'Forest'];
+function startSession() {
+  const b = S.booking; const now = Date.now();
+  S.session = { st: b.st, type: b.type, room: b.room, start: now, end: now + b.hours * H, base: b.price, night: b.night, extras: [], light: 'Warm', temp: 21, sound: 'White noise', wake: now + b.hours * H, door: true, dnd: true, red: 0 };
+  S.booking = null; save(); renderRoom(); go('s-room', true); stack.length = 0;
+}
+function renderRoom() {
+  const s = S.session; if (!s) return; const st = stationOf(s.st), t = TYPES[s.type];
+  $('#rm-eyebrow').textContent = `${s.room} · ${st.city} ${st.name}`;
+  $('#rm-img').src = t.big;
+  const lights = s.type === 'health' ? LIGHTS.concat(['Red light · 20 min']) : LIGHTS;
+  $('#rm-light').innerHTML = lights.map(l => `<button class="pill${l === s.light ? ' on' : ''}" data-light="${l}">${l}</button>`).join('');
+  $('#rm-light-v').textContent = s.light === 'Red light · 20 min' && s.red ? `Red light · ${Math.max(0, Math.ceil((s.red - Date.now()) / M))} min left` : s.light;
+  $('#rm-banner').classList.toggle('red', s.light === 'Red light · 20 min');
+  $('#rm-temp').textContent = s.temp + ' °C';
+  $('#rm-sound').innerHTML = SOUNDS.map(l => `<button class="pill${l === s.sound ? ' on' : ''}" data-sound="${l}">${l}</button>`).join('');
+  $('#rm-sound-v').textContent = s.sound;
+  $('#rm-wake').textContent = clock(s.wake);
+  $('#rm-door').classList.toggle('on', s.door); $('#rm-dnd').classList.toggle('on', s.dnd);
+  const ext = s.extras.filter(e => e.kind === 'ext').length;
+  $('#rm-ext').innerHTML = `<button class="pill" data-ext="1">+ 1 h · €${t.extend}</button><button class="pill" data-ext="2">+ 2 h · €${Math.round(t.extend * 1.7)}</button>`;
+  $('#rm-ext-v').textContent = ext ? `Extended ${ext}×` : 'Member rate';
+  $('#rm-shop').innerHTML = SHOP.map(i => `<button data-shop="${i.id}" class="${s.extras.some(e => e.id === i.id) ? 'added' : ''}"><b>${i.n} · €${i.p}</b><span>${i.d}</span></button>`).join('');
+  tickRoom();
+}
+function tickRoom() {
+  const s = S.session; if (!s) return; const now = Date.now();
+  $('#rm-clock').textContent = hms(now - s.start);
+  const left = s.end - now;
+  $('#rm-ends').textContent = left > 0 ? `Ends ${clock(s.end)} · ${dur(left)} left` : `Ended ${clock(s.end)} · overtime charged by the hour`;
+  if (s.light === 'Red light · 20 min' && s.red && now > s.red) { s.light = 'Dim'; s.red = 0; save(); renderRoom(); toast('Red-light protocol complete'); }
+}
+$('#s-room').addEventListener('click', e => {
+  const s = S.session; if (!s) return;
+  const l = e.target.closest('[data-light]'); if (l) { s.light = l.dataset.light; s.red = s.light === 'Red light · 20 min' ? Date.now() + 20 * M : 0; save(); renderRoom(); return; }
+  const so = e.target.closest('[data-sound]'); if (so) { s.sound = so.dataset.sound; save(); renderRoom(); return; }
+  const x = e.target.closest('[data-ext]'); if (x) { const h = +x.dataset.ext, t = TYPES[s.type], p = h === 1 ? t.extend : Math.round(t.extend * 1.7); s.end += h * H; s.wake += h * H; s.extras.push({ kind: 'ext', n: `Extension · ${h} h`, p }); save(); renderRoom(); toast(`Extended to ${clock(s.end)}`); return; }
+  const sh = e.target.closest('[data-shop]'); if (sh) { const i = SHOP.find(k => k.id === sh.dataset.shop); if (s.extras.some(e2 => e2.id === i.id)) { s.extras = s.extras.filter(e2 => e2.id !== i.id); toast(`${i.n} removed`); } else { s.extras.push({ kind: 'shop', id: i.id, n: i.n, p: i.p }); toast(`${i.n} ready at the lobby hatch · code 4471`); } save(); renderRoom(); return; }
+});
+$('#rm-tdown').addEventListener('click', () => { const s = S.session; s.temp = Math.max(17, s.temp - 1); save(); renderRoom(); });
+$('#rm-tup').addEventListener('click', () => { const s = S.session; s.temp = Math.min(25, s.temp + 1); save(); renderRoom(); });
+$('#rm-wdown').addEventListener('click', () => { const s = S.session; s.wake -= 15 * M; save(); renderRoom(); });
+$('#rm-wup').addEventListener('click', () => { const s = S.session; s.wake += 15 * M; save(); renderRoom(); });
+$('#rm-door').addEventListener('click', () => { const s = S.session; s.door = !s.door; save(); renderRoom(); toast(s.door ? 'Door locked' : 'Door unlocked from inside'); });
+$('#rm-dnd').addEventListener('click', () => { const s = S.session; s.dnd = !s.dnd; save(); renderRoom(); });
+$('#rm-end').addEventListener('click', () => {
+  const s = S.session; const used = Date.now() - s.start, booked = s.end - s.start;
+  const tot = total(s);
+  sheet(`<span class="lab">End session</span><h1 style="font-size:24px">Leave ${s.room} now?</h1><p class="sub">You have used ${dur(used)} of ${dur(booked)}. The booked time is charged, the room resets as soon as you leave.</p><div class="row" style="margin-top:14px"><div class="n">Total</div><div class="r" style="font-size:22px;font-weight:300">${eur(tot)}</div></div><div style="margin-top:20px"><button class="btn" id="sh-end">End and leave</button><button class="btn ghost" id="sh-stay">Keep resting</button></div>`);
+  $('#sh-end').addEventListener('click', endSession); $('#sh-stay').addEventListener('click', closeSheet);
+});
+function total(s) { return s.base * (1 - MEMBER) + s.extras.reduce((a, e) => a + e.p, 0); }
+function endSession() {
+  closeSheet(); const s = S.session; const st = stationOf(s.st), t = TYPES[s.type];
+  const tot = total(s);
+  S.stays.unshift({ date: s.start, st: s.st, room: s.room, type: s.type, dur: s.end - s.start, total: tot });
+  const rows = [`<div class="row"><div><div class="n">${s.room} · ${t.name}</div><div class="d">${st.city} ${st.name} · ${clock(s.start)}–${clock(s.end)} · ${dur(s.end - s.start)}</div></div><div class="r">${eur(s.base)}</div></div>`,
+    `<div class="row"><div>Personal member −20%</div><div class="r">−${eur(s.base * MEMBER)}</div></div>`]
+    .concat(s.extras.map(e => `<div class="row"><div>${e.n}</div><div class="r">${eur(e.p)}</div></div>`))
+    .concat([`<div class="row"><div><div class="n">Charged</div><div class="d">Apple Pay · Visa •••• 4421 · ${s.night ? 'incl. 7% VAT' : 'incl. 19% VAT'}</div></div><div class="r tot">${eur(tot)}</div></div>`]);
+  $('#co-rows').innerHTML = rows.join('');
+  $('#co-sub').textContent = `${dur(Date.now() - s.start)} in ${s.room}. Your receipt is in your stays.`;
+  $('#co-reset').textContent = `${s.room} resets automatically: linen swap, air purge, back online in about 20 minutes. Lockers release when you tap out at the lobby.`;
+  $('#co-rate').innerHTML = [1, 2, 3, 4, 5].map(i => `<button data-rate="${i}" aria-label="${i} of 5"></button>`).join('');
+  S.session = null; save(); go('s-checkout', true); stack.length = 0;
+}
+$('#co-rate').addEventListener('click', e => { const b = e.target.closest('[data-rate]'); if (!b) return; const n = +b.dataset.rate; $$('#co-rate button').forEach((x, i) => x.classList.toggle('on', i < n)); toast(n >= 4 ? 'Thank you. Sleep well next time too.' : 'Thanks. We will look into it.'); });
+$('#co-done').addEventListener('click', () => { renderHome(); go('s-home'); });
+$('#co-again').addEventListener('click', () => { const last = S.stays[0]; renderHome(); go('s-home'); openStation(last.st); });
+
+// ---------- stays ----------
+function renderStays() {
+  const n = S.stays.length, hrs = S.stays.reduce((a, s) => a + s.dur, 0) / H, sum = S.stays.reduce((a, s) => a + s.total, 0);
+  $('#sy-h1').innerHTML = `<b>${n} stays</b> · ${Math.round(hrs)} hours of rest<br>${eur(sum)} in total.`;
+  const s = S.session, b = S.booking;
+  $('#sy-current').innerHTML = s ? `<div class="current"><div><div class="lab">Now</div><div class="n" style="font-weight:500;margin-top:4px">${s.room} · ${stationOf(s.st).city} ${stationOf(s.st).name}</div><div class="d hint">Ends ${clock(s.end)}</div></div><button class="btn sm" data-go="s-room">Open room</button></div>`
+    : b ? `<div class="current"><div><div class="lab">Held</div><div class="n" style="font-weight:500;margin-top:4px">${b.room} · ${stationOf(b.st).city} ${stationOf(b.st).name}</div><div class="d hint">${b.startAt > Date.now() + M ? 'From ' + clock(b.startAt) : 'Held until ' + clock(b.holdUntil)}</div></div><button class="btn sm" data-go="s-hold">Open</button></div>` : '';
+  $('#sy-list').innerHTML = S.stays.map(x => { const st = stationOf(x.st); return `<div class="stay"><div class="l1"><span>${st.city} ${st.name}</span><span>${eur(x.total)}</span></div><div class="l2"><span>${dateS(x.date)} · ${x.room} · ${TYPES[x.type].name}</span><span>${dur(x.dur)}</span></div></div>`; }).join('');
+}
+$('#ac-reset').addEventListener('click', () => {
+  sheet(`<span class="lab">Reset demo</span><h1 style="font-size:24px">Start the demo over?</h1><p class="sub">Clears the current hold or session and the stays added in this demo. Example stays from September remain.</p><div style="margin-top:20px"><button class="btn" id="sh-reset">Reset</button><button class="btn ghost" id="sh-keep">Keep</button></div>`);
+  $('#sh-reset').addEventListener('click', () => { S = { city: 'Berlin', stays: SEED_STAYS.slice(), booking: null, session: null }; save(); closeSheet(); renderHome(); go('s-home'); toast('Demo reset'); });
+  $('#sh-keep').addEventListener('click', closeSheet);
+});
+
+// ---------- boot ----------
+load();
+renderHome();
+show('s-splash');
+let splashDone = false;
+function leaveSplash() {
+  if (splashDone) return; splashDone = true;
+  if (S.session) { renderRoom(); show('s-room'); } else if (S.booking) { renderHold(); show('s-hold'); } else { show('s-home'); }
+}
+$('#s-splash').addEventListener('click', leaveSplash);
+setTimeout(leaveSplash, 2200);
+setInterval(() => { if (current === 's-hold') tickHold(); if (current === 's-room') tickRoom(); }, 1000);
+})();
+</script>
