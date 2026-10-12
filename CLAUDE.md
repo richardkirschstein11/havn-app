@@ -6,14 +6,15 @@ HAVN baut ein Netz privater Ruheräume ("Rest, on demand") in Gewerbegebäuden: 
 
 Diese Regeln hat Richard am 12.10.2026 festgelegt, nachdem der Kalender zwei Tage mit drei und vier Werksbesuchen enthielt und bestätigte Termine bei Partnern wieder umgebucht werden mussten. Das darf nicht wieder passieren: Umbuchungen wirken unprofessionell.
 
-1. **Höchstens zwei Werks- oder Fabrikbesuche pro Tag** außerhalb der Messe. Standgespräche auf der Canton Fair zählen nicht mit, davon dürfen es mehr sein.
-2. **Jeder Werksbesuch wird mit mindestens 2,5 bis 3 Stunden geplant.** Solche Besuche dauern meist länger als zwei Stunden; nie mit 60 oder 75 Minuten einplanen.
-3. **Essenszeiten mit dem jeweiligen Partner einplanen.** Mittagessen gehört zum Besuch, in der Regel 12:00 bis 13:30. Kein Tagesplan ohne Mittagspause.
-4. **Transitzeiten realistisch einrechnen.** Fahrzeiten zwischen Orten (Hotel, Messe Pazhou, Panyu, Foshan Jiujiang/Lecong, Heshan, Zhongshan, Shenzhen) immer mit Puffer von mindestens 30 Minuten zwischen zwei Terminen; Fahrzeiten mit Amap oder dem Fahrer prüfen. Zwischen Werksbesuchen in verschiedenen Städten mindestens 1 bis 1,5 Stunden rechnen.
-5. **Vor jeder Terminanfrage und vor jeder Bestätigung die Tagesübersicht im Kalender prüfen.** Würde die Regel verletzt, wird nicht angefragt und nicht bestätigt, sondern ein anderer Tag vorgeschlagen. Es gibt genug Tage vor Ort.
-6. **Bestätigte Termine werden nicht mehr verschoben.** Wenn ein Konflikt entsteht, weicht der neue, noch nicht bestätigte Termin, nie der bestätigte.
-7. **Dirks separate Tage (z. B. Shenzhen) zählen eigenständig**: auch dort höchstens zwei Besuche.
-8. **Bei jedem Routine-Lauf zuerst den Tagesplan auf Überbuchung prüfen** und Verstöße als erstes melden, nicht erst auf Nachfrage.
+1. **Werksbesuche nur an Tagen, an denen die Canton Fair geschlossen ist**, also an den Umbautagen zwischen den Phasen (2026: Di 20., Mi 21., Do 22.10.). Messetage sind ausschließlich für die Messe reserviert, dort finden keine Fabrik- oder Lieferantenbesuche statt.
+2. **Höchstens zwei Werks- oder Fabrikbesuche pro Tag.** Standgespräche auf der Canton Fair zählen nicht mit, davon dürfen es mehr sein.
+3. **Jeder Werksbesuch wird mit mindestens 2,5 bis 3 Stunden geplant.** Solche Besuche dauern meist länger als zwei Stunden; nie mit 60 oder 75 Minuten einplanen.
+4. **Essenszeiten mit dem jeweiligen Partner einplanen.** Mittagessen gehört zum Besuch, in der Regel 12:00 bis 13:30. Kein Tagesplan ohne Mittagspause.
+5. **Transitzeiten realistisch einrechnen.** Fahrzeiten zwischen Orten (Hotel, Messe Pazhou, Panyu, Foshan Jiujiang/Lecong, Heshan, Zhongshan, Shenzhen) immer mit Puffer von mindestens 30 Minuten zwischen zwei Terminen; Fahrzeiten mit Amap oder dem Fahrer prüfen. Zwischen Werksbesuchen in verschiedenen Städten mindestens 1 bis 1,5 Stunden rechnen.
+6. **Vor jeder Terminanfrage und vor jeder Bestätigung die Tagesübersicht im Kalender prüfen.** Würde die Regel verletzt, wird nicht angefragt und nicht bestätigt, sondern ein anderer Tag vorgeschlagen. Es gibt genug Tage vor Ort.
+7. **Bestätigte Termine werden nicht mehr verschoben.** Wenn ein Konflikt entsteht, weicht der neue, noch nicht bestätigte Termin, nie der bestätigte.
+8. **Dirks separate Tage (z. B. Shenzhen) zählen eigenständig**: auch dort höchstens zwei Besuche.
+9. **Bei jedem Routine-Lauf zuerst den Tagesplan auf Überbuchung prüfen** und Verstöße als erstes melden, nicht erst auf Nachfrage.
 
 Prioritäten bei Konflikten: Kabinen-Kernkandidaten (Prodec, Hecor, Ofiexperts, Soundbox) und Sanitärkern (Lesntec/LESSO, ARROW, SALLY) vor Komponenten-Lieferanten (Jiaxu, Glawall) und vor unbestätigten Backups (Aiserr, Yinke, Seagull, REMAC, Yourwork, JJC).
 
