@@ -6,7 +6,7 @@ HAVN baut ein Netz privater Ruheräume ("Rest, on demand") in Gewerbegebäuden: 
 
 Diese Regeln hat Richard am 12.10.2026 festgelegt, nachdem der Kalender zwei Tage mit drei und vier Werksbesuchen enthielt und bestätigte Termine bei Partnern wieder umgebucht werden mussten. Das darf nicht wieder passieren: Umbuchungen wirken unprofessionell.
 
-1. **Werksbesuche nur an Tagen, an denen die Canton Fair geschlossen ist**, also an den Umbautagen zwischen den Phasen (2026: Di 20., Mi 21., Do 22.10.). Messetage sind ausschließlich für die Messe reserviert, dort finden keine Fabrik- oder Lieferantenbesuche statt.
+1. **Werksbesuche nur an Tagen, an denen die Canton Fair geschlossen ist**, also an den Umbautagen zwischen den Phasen (2026: Mo 19., Di 20., Mi 21., Do 22.10.; der Montag ist Abbautag und zählt als Werkstag, Messe reicht Fr 16. bis So 18., Phase 2 wieder ab Fr 23.). Messetage sind ausschließlich für die Messe reserviert, dort finden keine Fabrik- oder Lieferantenbesuche statt.
 2. **Höchstens zwei Werks- oder Fabrikbesuche pro Tag.** Standgespräche auf der Canton Fair zählen nicht mit, davon dürfen es mehr sein.
 3. **Jeder Werksbesuch wird mit mindestens 2,5 bis 3 Stunden geplant.** Solche Besuche dauern meist länger als zwei Stunden; nie mit 60 oder 75 Minuten einplanen.
 4. **Essenszeiten mit dem jeweiligen Partner einplanen.** Mittagessen gehört zum Besuch, in der Regel 12:00 bis 13:30. Kein Tagesplan ohne Mittagspause.
