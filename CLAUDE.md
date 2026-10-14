@@ -23,6 +23,7 @@ Prioritäten bei Konflikten: Kabinen-Kernkandidaten (Prodec, Hecor, Ofiexperts, 
 - Antworten im Stil von Richard: höflich, konkret, zweisprachig Englisch und Chinesisch (erst EN, dann Trennlinie, dann ZH), Signatur "Richard Kirschstein, Co-Founder & CFO, HAVN, Berlin, Germany, Mobile / WhatsApp: +49 176 63645834".
 - Immer Datum, Uhrzeit, Ort, Teilnehmer (Dirk, Richard, Michael, Dolmetscher) und nächste Schritte nennen. Zeichnungen erst nach beidseitigem NNN.
 - Antworten als Gmail-Entwurf im Thread anlegen. Senden nur nach Freigabe von Richard oder wenn er ausdrücklich sagt, nicht auf ihn zu warten.
+- **Angebotenen Transport nie ablehnen.** Bietet ein Lieferant Abholung, Fahrer oder Shuttle an (Hotel, Messe, Bahnhof), wird das dankend angenommen; das spart uns Fahrtorganisation und ist für den Partner ein normaler Teil der Gastfreundschaft. Richard hat das am 14.10.2026 festgelegt, nachdem die Abholung durch Soundbox abgelehnt worden war. Ein einmal abgelehntes Angebot wird nicht nachträglich noch einmal angefragt.
 - Die Routine "havn-china-supplier-replies" läuft auf Richards Mac (08:30, 13:30, 18:30). Läuft parallel eine Cloud-Session, entstehen doppelte Entwürfe; vorher den Entwürfe-Ordner prüfen.
 
 ## Kalenderpflege
