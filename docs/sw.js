@@ -1,9 +1,7 @@
-// The demo app used to live at the site root and registered a service worker here.
-// This replacement clears its caches and unregisters itself so visitors get the plain site again.
-// The demo now lives under /demo/ with its own worker (cache prefix "havn-demo-").
-self.addEventListener('install', () => self.skipWaiting());
-self.addEventListener('activate', e => e.waitUntil(
-  caches.keys()
-    .then(ks => Promise.all(ks.filter(k => !k.startsWith('havn-demo-')).map(k => caches.delete(k))))
-    .then(() => self.registration.unregister())
-));
+const C = 'havn-' + '202610071944';
+self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(C).then(c => c.addAll(['./', './index.html', './icon-180.png', './icon-192.png', './icon-512.png', './manifest.webmanifest']))); });
+self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
+self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET' || new URL(e.request.url).origin !== location.origin) return;
+  e.respondWith(fetch(e.request).then(r => { const cp = r.clone(); caches.open(C).then(c => c.put(e.request, cp)); return r; }).catch(() => caches.match(e.request).then(m => m || caches.match('./index.html'))));
+});

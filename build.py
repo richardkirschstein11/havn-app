@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Build the HAVN demo app: src/app.html + src/images.json -> dist/artifact.html (body only, for the Claude artifact) and dist/index.html (full document for hosting / download).
-The hosted copy goes to docs/demo/ (GitHub Pages); docs/index.html is the static coming-soon page for havn.rest."""
+"""Build the HAVN demo app: src/app.html + src/images.json -> dist/artifact.html (body only, for the Claude artifact) and dist/index.html (full document for hosting / download)."""
 import json, os, re
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 tpl = open('src/app.html').read()
@@ -11,7 +10,7 @@ for room in ['S-01','S-02','S-03','S-04','S-05','D-01','D-02','D-03','D-04','H-0
     q = segno.make('https://havn.rest/key/' + room + '/7F2K-DEMO', error='m')
     qrs[room] = q.svg_inline(scale=4, border=0, dark='#141414', light=None)
 body = tpl.replace('{{IMAGES}}', json.dumps(imgs)).replace('{{QRS}}', json.dumps(qrs))
-os.makedirs('dist', exist_ok=True); os.makedirs('docs/demo', exist_ok=True)
+os.makedirs('dist', exist_ok=True); os.makedirs('docs', exist_ok=True)
 open('dist/artifact.html', 'w').write(body)
 head = '''<!doctype html>
 <html lang="en">
@@ -35,14 +34,14 @@ m_title = re.search(r'<title>.*?</title>\n', body); m_link = re.search(r'<link r
 rest = body.replace(m_title.group(0), '').replace(m_link.group(0), '')
 full = head + m_title.group(0) + m_link.group(0) + '</head>\n<body>\n' + rest + '\n</body>\n</html>\n'
 open('dist/index.html', 'w').write(full)
-open('docs/demo/index.html', 'w').write(full)
+open('docs/index.html', 'w').write(full)
 import shutil
 for f in ('icon-180.png', 'icon-192.png', 'icon-512.png'):
-    shutil.copy('dist/' + f, 'docs/demo/' + f)
-json.dump({"name": "HAVN", "short_name": "HAVN", "id": "./", "description": "Rest, on demand. Private recovery rooms by the hour.", "start_url": "./", "scope": "./", "display": "standalone", "orientation": "portrait", "background_color": "#141414", "theme_color": "#141414", "icons": [{"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"}, {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}]}, open('docs/demo/manifest.webmanifest', 'w'), indent=1)
+    shutil.copy('dist/' + f, 'docs/' + f)
+json.dump({"name": "HAVN", "short_name": "HAVN", "id": "./", "description": "Rest, on demand. Private recovery rooms by the hour.", "start_url": "./", "scope": "./", "display": "standalone", "orientation": "portrait", "background_color": "#141414", "theme_color": "#141414", "icons": [{"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"}, {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}]}, open('docs/manifest.webmanifest', 'w'), indent=1)
 import time
 ver = time.strftime('%Y%m%d%H%M')
-open('docs/demo/sw.js', 'w').write('''const C = 'havn-demo-' + VER;
+open('docs/sw.js', 'w').write('''const C = 'havn-' + VER;
 self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(C).then(c => c.addAll(['./', './index.html', './icon-180.png', './icon-192.png', './icon-512.png', './manifest.webmanifest']))); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', e => {
