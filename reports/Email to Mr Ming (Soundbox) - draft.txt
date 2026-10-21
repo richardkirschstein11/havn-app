@@ -16,9 +16,9 @@ HAVN builds a network of private rest rooms inside commercial buildings in Europ
 
 Every HAVN station combines three cabin types around a shared sanitary core (showers, WC, lockers). All three share one panel system and one door; they differ only in floor size and interior:
 
-- Single Cabin: 2.0 x 2.4 m floor, 2.30 m interior height. Bed 200 x 100 cm, small desk and chair, hooks, luggage space under the bed. For naps, quiet work breaks and overnight stays.
-- Double Cabin: 2.4 x 2.4 m floor, 2.30 m interior height. Bed 200 x 160 cm, hooks and luggage space for two. Same shell, one size up.
-- Health Pod: 2.0 x 2.4 m floor, 2.30 m interior height. A normal bed (200 x 100 cm) exactly like the Single Cabin, so it is used for ordinary overnight stays as well, plus a wall-mounted red/near-infrared light panel (630–850 nm) and guided 20-minute protocols with sound and scent.
+- Single Cabin: 2.0 x 2.4 m floor, 2.40 m interior height. Bed 200 x 100 cm, small desk and chair, hooks, luggage space under the bed. For naps, quiet work breaks and overnight stays.
+- Double Cabin: 2.4 x 2.4 m floor, 2.40 m interior height. Bed 200 x 160 cm, hooks and luggage space for two. Same shell, one size up.
+- Health Pod: 2.0 x 2.4 m floor, 2.40 m interior height. A normal bed (200 x 100 cm) exactly like the Single Cabin, so it is used for ordinary overnight stays as well, plus a wall-mounted red/near-infrared light panel (630–850 nm) and guided 20-minute protocols with sound and scent.
 
 All cabins: flat-pack panels max. 80 cm wide (to pass through a standard door), soundproof door, your air-conditioning unit on the roof, total outer height including the unit max. 2.70 m, 230 V EU power, CE, reaction-to-fire class per EN 13501-1.
 
@@ -79,7 +79,7 @@ None of this is new to a manufacturer who exports to Europe, and we are glad to 
 - Which of these points are standard for you today, which would need development, and where would you advise us to take a different route?
 - How would your engineers reach 52 dB for the wall and 50 dB for the door, and what has your best complete cabin measured so far?
 - Can your air-conditioning unit provide CO2-controlled fresh air and the 16 °C setting in the noise-cancelling version, and how does its heat leave a room-in-room cabin?
-- Can the panel system deliver 2.30 m interior height within 2.70 m total height including the unit?
+- Can the panel system deliver 2.40 m interior height within 2.70 m total height including the unit?
 - Where would you place the virtual window, in the ceiling panel or in the wall, and do you have partners in Guangdong for such panels?
 - Which controller would you propose, and does it have an open, documented API for our app, the two speakers and the microphone?
 
@@ -110,9 +110,9 @@ HAVN 正在欧洲城市的商业建筑内打造私密休憩空间网络：城市
 
 每个 HAVN 站点由三种舱型和一个共享卫浴核心（淋浴、卫生间、储物柜）组成。三种舱型使用同一套板式系统和同一款门，仅在面积和内部配置上有所不同：
 
-- 单人舱：地面 2.0 x 2.4 米，内净高 2.30 米。床 200 x 100 厘米，小书桌和座椅、挂钩、床下行李位。用于小睡、安静的工作间歇和过夜住宿。
-- 双人舱：地面 2.4 x 2.4 米，内净高 2.30 米。床 200 x 160 厘米，两人用挂钩和行李位。同一舱体，大一号。
-- 健康舱：地面 2.0 x 2.4 米，内净高 2.30 米。配与单人舱完全相同的普通床（200 x 100 厘米），因此同样用于普通过夜住宿；另加壁挂式红光/近红外光板（630–850 纳米）以及带声音和香氛的 20 分钟引导程序。
+- 单人舱：地面 2.0 x 2.4 米，内净高 2.40 米。床 200 x 100 厘米，小书桌和座椅、挂钩、床下行李位。用于小睡、安静的工作间歇和过夜住宿。
+- 双人舱：地面 2.4 x 2.4 米，内净高 2.40 米。床 200 x 160 厘米，两人用挂钩和行李位。同一舱体，大一号。
+- 健康舱：地面 2.0 x 2.4 米，内净高 2.40 米。配与单人舱完全相同的普通床（200 x 100 厘米），因此同样用于普通过夜住宿；另加壁挂式红光/近红外光板（630–850 纳米）以及带声音和香氛的 20 分钟引导程序。
 
 所有舱体：可拆装板式结构，面板宽度不超过 80 厘米（可通过标准门），隔音门，贵司的空调机组安装在舱顶，含机组的总外高不超过 2.70 米，230 V 欧标供电，CE 认证，燃烧性能等级符合 EN 13501-1。
 
@@ -173,7 +173,7 @@ HAVN 正在欧洲城市的商业建筑内打造私密休憩空间网络：城市
 - 上述各点中，哪些是贵司目前的标准配置，哪些需要开发，哪些方面贵司会建议我们采用其他方案？
 - 贵司的工程师会如何实现墙体 52 分贝、门 50 分贝？贵司目前最好的整舱实测值是多少？
 - 贵司的空调机组在静音版本中能否提供 CO2 控制的新风和 16 °C 的设定？热量如何从房中房舱体排出？
-- 板式系统能否在含机组总高不超过 2.70 米的前提下实现 2.30 米内净高？
+- 板式系统能否在含机组总高不超过 2.70 米的前提下实现 2.40 米内净高？
 - 您会把虚拟窗放在顶板还是墙板？贵司在广东是否有此类面板的合作伙伴？
 - 贵司会建议哪种控制器？它是否具备可供我们的 App、两只扬声器和麦克风使用的开放、有文档的 API？
 
