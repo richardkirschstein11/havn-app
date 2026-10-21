@@ -1,20 +1,18 @@
-SUBJECT: HAVN x Soundbox – the concept behind our cabins: health, sleep and longevity / HAVN 休憩舱背后的理念：健康、睡眠与长寿
+SUBJECT: HAVN x Soundbox – our cabin types and the health, sleep and longevity concept / HAVN 休憩舱类型与健康、睡眠及长寿理念
 
 Dear Mr. Ming, dear Cicie,
 
 (中文版本请见下文)
 
-Thank you very much for receiving us at your factory in Shilou on 20 October, and for the open conversation. Your interest in the health and longevity side of our cabins encouraged us a lot, and you asked a few questions about the concept. This email is our attempt to explain it properly: what HAVN is, what the three cabin types are, what a guest should experience inside, and why we believe that Soundbox could be exactly the right partner for it. A more detailed technical summary, with sources, is attached.
+Thank you very much for receiving us at your factory in Shilou on 20 October, and for the open conversation. Your interest in the health and longevity side of our cabins encouraged us a lot, and you asked a few questions about the concept. Below is a structured explanation: what HAVN is, what our three cabin types are, what we want to build into them, and why we believe that Soundbox could be the right partner for it.
 
-Please read everything as a basis for discussion, not as a fixed specification. We have written down what we would ideally like, together with the reasoning behind it. If a point cannot be realised the way we describe it, that is not a problem for us: we would much rather hear how your engineers would solve it, which of your existing products already come close, and where you would advise a different approach. We see this as the start of a long-term cooperation in which we develop the cabin together, step by step.
+Please read everything as a basis for discussion, not as a fixed specification. We have written down what we would ideally like, together with the reasoning behind it. If a point cannot be realised the way we describe it, that is not a problem for us: we would rather hear how your engineers would solve it, which of your existing products already come close, and where you would advise a different approach. We see this as the start of a long-term cooperation in which we develop the cabin together, step by step.
 
 1. The idea
 
 HAVN builds a network of private rest rooms inside commercial buildings in European cities: a quiet, dark, clean room in the middle of the city, open around the clock, booked and unlocked with the phone, with no reception and no staff on site. People use it for a nap between two meetings, for a quiet hour after a night train, or for a full night's sleep. The cabin resets itself automatically after every guest.
 
-What makes it a health product is not a gadget but the room itself. The science is clear that the strongest health lever is simple: enough sleep, at regular times, in a dark, quiet, cool and well-ventilated room. A 2024 analysis of 61,000 people in the UK Biobank found that the most regular sleepers had a 20–48 % lower all-cause mortality than the least regular. Short naps under one hour show no cardiovascular risk, while naps over one hour do. We do not promise medicine. We promise the best possible rest, from a short nap to a full night, engineered into a 5 m² cabin, and we will measure and show that it works: every guest can see the CO2, noise and temperature of their own stay.
-
-2. The three cabin types
+2. Our cabin types
 
 Every HAVN station combines three cabin types around a shared sanitary core (showers, WC, lockers). All three share one panel system and one door; they differ only in floor size and interior:
 
@@ -24,15 +22,19 @@ Every HAVN station combines three cabin types around a shared sanitary core (sho
 
 All cabins: flat-pack panels max. 80 cm wide (to pass through a standard door), soundproof door, your air-conditioning unit on the roof, total outer height including the unit max. 2.70 m, 230 V EU power, CE, reaction-to-fire class per EN 13501-1.
 
-3. What a guest should experience inside
+3. What "health and longevity" means for us
 
-(1) Quiet. The guest closes the door and the city is gone. Our target is hotel standard, not office-pod standard: wall Rw of 52 dB or more and a door of at least 50 dB, so that the inside stays at or below the WHO bedroom value of 30 dB(A) even in a station or office lobby. Door seals, decoupled floor, silencers on the air-conditioning penetrations, and no audible fan at low speed. With your core competence in acoustics, Soundbox could be exactly the right partner for this.
+We do not promise medicine. The science is clear that the strongest health lever is simple: enough sleep, at regular times, in a dark, quiet, cool and well-ventilated room. A 2024 analysis of 61,000 people in the UK Biobank found that the most regular sleepers had a 20–48 % lower all-cause mortality than the least regular. Short naps under one hour show no cardiovascular risk, while naps over one hour do. So our product is the best possible rest, from a short nap to a full night, engineered into a 5 m² cabin, and we will measure and show that it works: every guest can see the CO2, noise and temperature of their own stay.
 
-(2) Fresh, cool air. We would like to use your new air-conditioning unit with heating, cooling and air purification, in the quiet version in which the sound waves are cancelled. The guest sets the temperature from 16 °C upwards (we expect a range of about 16–26 °C, default 20 °C). A CO2 sensor controls the fresh-air supply so that CO2 stays below 1,000 ppm all night (boost at about 750 ppm), because chamber studies show measurably deeper sleep and fewer awakenings below that level. HEPA plus activated-carbon filtration, humidity 40–60 %, a full air change during the 20-minute reset between guests, and no ionisers, no ozone, no "plasma" devices. The unit sits on the roof within the 2.70 m total height, and its heat and condensate need a defined path into the host building.
+Concretely, we want to build six layers into every cabin:
 
-(3) Light that follows the body clock. An RGBW system with true white: red, green, blue plus warm-white and cool-white channels (RGB+CCT), so that white light always comes from the white channels and never from an RGB mix, tunable from 2200 to 6500 K with CRI 90 or higher, flicker-free drivers (PstLM ≤ 1, SVM ≤ 0.4). Bright and cool on arrival, below 10 melanopic lux in the wind-down, below 1 lux during sleep with all status LEDs off, and a 30-minute sunrise before the wake-up time. Orientation lines on the floor are not lit permanently: they switch on in dim red/amber (5–20 lux at floor level) only when the guest's feet touch the floor, detected by the bed-exit sensor, and switch off again when the guest is back in bed or after two minutes. For the control we do not insist on DALI: any controller or software is fine as long as it has an open, documented API that our own app can use (DALI, Casambi, Zigbee, Matter or your own controller).
+(1) Quiet. Our target is hotel standard, not office-pod standard: wall Rw of 52 dB or more and a door of at least 50 dB, so that the inside stays at or below the WHO bedroom value of 30 dB(A) even in a station or office lobby. Door seals, decoupled floor, silencers on the air-conditioning penetrations, and no audible fan at low speed. With your core competence in acoustics, Soundbox could be exactly the right partner for this.
 
-The sunrise is the most important light scene, so here is how we imagine it. It starts 30 minutes before the wake-up time from complete darkness and runs on a perceptually smooth dimming curve (logarithmic, no visible steps):
+(2) Air and climate. We would like to use your new air-conditioning unit with heating, cooling and air purification, in the quiet version in which the sound waves are cancelled. Our requirements: temperature adjustable by the guest from 16 °C upwards (we expect a range of about 16–26 °C, default 20 °C); a fresh-air supply controlled by a CO2 sensor, so that CO2 stays below 1,000 ppm all night (boost at about 750 ppm), because chamber studies show measurably deeper sleep and fewer awakenings below that level; HEPA plus activated-carbon filtration; humidity 40–60 %; a full air change during the 20-minute reset between guests; no ionisers, no ozone, no "plasma" devices. The unit sits on the roof within the 2.70 m total height, and we need a defined path for its heat and condensate into the host building.
+
+(3) Light. An RGBW system with true white: red, green, blue plus warm-white and cool-white channels (RGB+CCT), so that white light always comes from the white channels and never from an RGB mix, tunable from 2200 to 6500 K with CRI 90 or higher, flicker-free drivers (PstLM ≤ 1, SVM ≤ 0.4). Scenes: bright and cool on arrival, below 10 melanopic lux in the wind-down, below 1 lux during sleep with all status LEDs off, and a 30-minute sunrise before the wake-up time. Orientation lines on the floor are not lit permanently: they switch on in dim red/amber (5–20 lux at floor level) only when the guest's feet touch the floor, detected by the bed-exit sensor, and switch off again when the guest is back in bed or after two minutes. For the control we do not insist on DALI: any controller or software is fine as long as it has an open, documented API that our own app can use (DALI, Casambi, Zigbee, Matter or your own controller).
+
+The sunrise is the most important light scene, so here is our specification. It starts 30 minutes before the wake-up time from complete darkness and runs on a perceptually smooth dimming curve (logarithmic, no visible steps):
 
 | Minute | Colour temperature | Light at the eye | Channels |
 |---|---|---|---|
@@ -44,14 +46,16 @@ The sunrise is the most important light scene, so here is how we imagine it. It 
 
 For the 20-minute nap in the Health Pod the same sequence is compressed to about five minutes. The evening wind-down runs in reverse over 20–30 minutes: 2700 K → 2200 K → amber, from about 20 lux to below 1 lux at the eye.
 
-(4) A window where there is none. Our cabins have no real window, so we want to give the guest the feeling of one. There are two families of products:
+(4) The virtual window. Our cabins have no real window, so we want to give the guest the feeling of one. There are two families of products:
    - "Artificial sky" panels (Rayleigh-scattering LED units such as Innerscene, CoeLux, Yeelight Pro and several Guangdong OEM makers): they show a blue sky with a warm sun and create a real sense of depth and daylight. Most need 19–27 cm depth and 80–200 W, so they only work as a roof cut-out with a housing above the cabin, where the host ceiling leaves that room above the 2.70 m. One product (Innerscene Circadian Sky, sky without sun) is only 84 mm deep and could sit flush in a wall panel.
    - Thin LED "virtual window" or skylight light boxes (edge-lit, about 45–85 mm deep, 450 x 1200 or 600 x 1200 mm): less light, but they fit into a 10 cm wall panel or on the ceiling, and several Chinese OEMs make them.
-   Randomised studies show that such windows lower tension, anxiety and claustrophobia and improve mood in windowless rooms. Three practical points: a portrait 450 x 1200 panel fits inside one 80 cm wall module; recessing a luminaire into a 10 cm acoustic panel removes mass and creates an acoustic weak spot, so we would rather use the ceiling panel or a surface-mounted 46 mm box; and the window must switch hard off at night, run on the same lighting control (it becomes the sunrise in the morning), and its heat must go into the air stream of your unit.
+   Randomised studies show that such windows lower tension, anxiety and claustrophobia and improve mood in windowless rooms. Three practical points: a portrait 450 x 1200 panel fits inside one 80 cm wall module; recessing a luminaire into a 10 cm acoustic panel removes mass and creates an acoustic weak spot, so we prefer the ceiling panel or a surface-mounted 46 mm box; and the window must switch hard off at night, run on the same lighting control (it becomes the sunrise in the morning), and its heat must go into the air stream of your unit.
 
 (5) Sound and voice. Two speakers instead of one, for stereo, with a clean, high-quality sound: nothing extravagant, it is not about a sound experience, simply a clear and pleasant reproduction of voice, soundscapes and masking noise. Plus one microphone in every cabin; speakers and microphone are wired to the cabin controller with an audio interface or API. The speakers play nature soundscapes, pink/brown noise masking (default off) and guided 10-minute breathing or "non-sleep deep rest" audio. The microphone serves two purposes: snoring detection for the sleep report, and voice control. HAVN will add an AI voice assistant that runs on this hardware: guests will be able to set light, temperature, sound and wake-up time by voice and ask the assistant questions about their stay and their sleep. The cabin itself only needs the audio hardware and the open API; the assistant comes from HAVN. For privacy the microphone needs a hardware mute with an indicator, and audio should be processed locally wherever possible.
 
-(6) A real bed, and a room that knows when you sleep. A normal bed in every cabin type, with a quality mattress, a zipped washable encasement, pillow choice, a heavier-duvet option and an optional weighted blanket; an optional lavender cartridge diffuser (moderate evidence for faster sleep onset). Each cabin gets a small sensor set: a contactless 60 GHz radar module (breathing, heart rate, movement, bed occupancy and bed exit, which also triggers the floor lights and confirms the cabin is empty for the reset), plus CO2, temperature, humidity and noise sensors. The guest can opt in to a simple sleep report after the stay, and the room can wake them in a soft window of light sleep. Nine Hours in Japan already does this; in Europe nobody does, and it is a real differentiator.
+(6) Bed, scent and sensing. A normal bed in every cabin type, with a quality mattress, a zipped washable encasement, pillow choice, a heavier-duvet option and an optional weighted blanket; an optional lavender cartridge diffuser (moderate evidence for faster sleep onset). Each cabin gets a small sensor set: a contactless 60 GHz radar module (breathing, heart rate, movement, bed occupancy and bed exit, which also triggers the floor lights and confirms the cabin is empty for the reset), plus CO2, temperature, humidity and noise sensors. The guest can opt in to a simple sleep report after the stay, and the room can wake them in a soft window of light sleep. Nine Hours in Japan already does this; in Europe nobody does, and it is a real differentiator.
+
+Core for us from the first cabin are the quiet shell and door, the air-conditioning unit, the lighting with the sunrise, true blackout, the speakers, microphone and sensors wired to a controller with an open API, and a prepared ceiling or wall position for the virtual window. The virtual sky panels, bed-level cooling, scent and weighted blankets can come later; sound beds and massage are experimental.
 
 4. The Health Pod
 
@@ -59,9 +63,18 @@ The Health Pod is the same cabin with the same normal bed, so it is used for ord
 
 5. Materials, sustainability and compliance
 
-Sustainability matters to us: the cabin should be healthy for the guest and for the environment. We will have the ecological properties and the pollutant emissions of the finished cabin tested independently (formaldehyde under the new EU REACH limit of 0.062 mg/m³, VOC under the German AgBB scheme, substances of very high concern such as phthalates and flame retardants), we need EU fire classes (EN 13501-1, B-s1,d0 for the linings) and CE documentation for the electrical parts and the air-conditioning unit, and we would like to understand the recycled content, recyclability and repairability of the panel system and the energy consumption of the unit and the lighting. The full checklist is in the attachment; none of it is new to a manufacturer who exports to Europe, and we are glad to go through it together.
+Sustainability matters to us: the cabin should be healthy for the guest and for the environment, so we will have its ecological properties and its pollutant emissions tested independently. For every manufacturer this means:
 
-6. What we would love to discuss with you
+- Board materials ENF or E0: since 6 August 2026 the EU REACH regulation limits formaldehyde release from furniture and wood-based articles to 0.062 mg/m³ (chamber test); a Chinese E1 board no longer passes. We need the chamber test report for the finished cabin from an ISO 17025 lab, plus a 28-day low-VOC report (German AgBB scheme) on the assembled wall, ceiling and floor build-ups.
+- Reaction-to-fire class per EN 13501-1 from an EU-accredited lab (not GB 8624): B-s1,d0 for every exposed lining, Cfl-s1 for the floor, EN 1021 for upholstery; a smoke detector mount wired to the building alarm, provision for a sprinkler drop head or pass-through in the roof panel, a door that opens from inside without key or power at all times, and a main isolator reachable from outside.
+- Acoustic test reports (EN ISO 10140 / ISO 23351-1) of the complete cabin and of the door.
+- CE for the electrical parts (Low Voltage, EMC, RoHS; wireless under RED), with CB-scheme reports from TÜV, SGS or Intertek, an EMC test of the complete cabin with all devices running, an EN 62471 photobiological report for every light source, and the CE documentation of the air-conditioning unit including the refrigerant type and the EU F-gas requirements.
+- PVC-free and phthalate-free surfaces, washable textiles.
+- Sustainability: we would like to know the recycled content of panels, foams and felts, whether the materials can be separated and recycled at end of life, how single panels can be repaired or replaced, and the energy consumption of the air-conditioning unit and the lighting. Pollutant testing of the finished cabin (formaldehyde, VOC, substances of very high concern such as phthalates and flame retardants) is part of our acceptance.
+
+None of this is new to a manufacturer who exports to Europe, and we are glad to go through it together.
+
+6. Questions we would like to discuss with you
 
 - Which of these points are standard for you today, which would need development, and where would you advise us to take a different route?
 - How would your engineers reach 52 dB for the wall and 50 dB for the door, and what has your best complete cabin measured so far?
@@ -70,7 +83,7 @@ Sustainability matters to us: the cabin should be healthy for the guest and for 
 - Where would you place the virtual window, in the ceiling panel or in the wall, and do you have partners in Guangdong for such panels?
 - Which controller would you propose, and does it have an open, documented API for our app, the two speakers and the microphone?
 
-We would be glad to go through all of this with you and your chief engineer in a video call, ideally next week. You already have our technical drawings. Thank you again for your hospitality, and we look forward to building this together.
+We will probably see each other again tomorrow for a meal, and we are in Guangzhou until Sunday, so we can go through all of this in person; a video call with your chief engineer is of course possible at any time as well. You already have our technical drawings. Thank you again for your hospitality, and we look forward to building this together.
 
 Best regards,
 
@@ -85,7 +98,7 @@ Mobile / WhatsApp: +49 176 63645834
 
 您们好！
 
-非常感谢您于 10 月 20 日在石楼工厂接待我们，并与我们坦诚交流。您对我们休憩舱"健康与长寿"理念的关注给了我们很大的鼓舞，您也就这一理念提出了几个问题。这封邮件是我们对理念的完整说明：HAVN 是什么，三种舱型是什么，客人在舱内应当体验到什么，以及为什么我们相信声博士或许正是最合适的合作伙伴。更详细的技术摘要（含资料来源）见附件。
+非常感谢您于 10 月 20 日在石楼工厂接待我们，并与我们坦诚交流。您对我们休憩舱"健康与长寿"理念的关注给了我们很大的鼓舞，您也就这一理念提出了几个问题。以下是系统的说明：HAVN 是什么，我们的三种舱型是什么，我们希望在舱内集成哪些元素，以及为什么我们认为声博士可能是合适的合作伙伴。
 
 以下内容请作为讨论的基础，而非固定的规格要求。我们写下的是理想中的方案及其背后的考虑。如果某一点无法按我们描述的方式实现，这对我们来说并不是问题：我们更希望听到贵司工程师会如何解决、贵司现有哪些产品已经接近，以及在哪些方面贵司会建议采用不同的方案。我们将此视为长期合作的开始，希望与贵司一步一步共同开发这款舱体。
 
@@ -93,9 +106,7 @@ Mobile / WhatsApp: +49 176 63645834
 
 HAVN 正在欧洲城市的商业建筑内打造私密休憩空间网络：城市中心一个安静、黑暗、洁净的房间，全天候开放，用手机预订和开门，现场没有前台和工作人员。人们用它在两个会议之间小睡、在夜间列车之后安静地休息一小时，或者睡上完整的一晚。每位客人离开后，舱体自动完成重置。
 
-使它成为健康产品的不是某个设备，而是房间本身。科学结论很明确：最有效的健康杠杆其实很简单——在黑暗、安静、凉爽、通风良好的房间里，规律地获得充足睡眠。2024 年一项基于英国生物样本库 61,000 人的分析显示，睡眠最规律的人群全因死亡率比最不规律的人群低 20–48%。一小时以内的小睡没有显示心血管风险，而超过一小时的小睡则有。我们不承诺医疗效果。我们承诺的是最优质的休息——从短暂小睡到整晚睡眠——被工程化地装进一个 5 平方米的舱体里，而且我们会测量并展示它的效果：每位客人都可以看到自己此次住宿的 CO2、噪声和温度数据。
-
-二、三种舱型
+二、我们的舱型
 
 每个 HAVN 站点由三种舱型和一个共享卫浴核心（淋浴、卫生间、储物柜）组成。三种舱型使用同一套板式系统和同一款门，仅在面积和内部配置上有所不同：
 
@@ -105,15 +116,19 @@ HAVN 正在欧洲城市的商业建筑内打造私密休憩空间网络：城市
 
 所有舱体：可拆装板式结构，面板宽度不超过 80 厘米（可通过标准门），隔音门，贵司的空调机组安装在舱顶，含机组的总外高不超过 2.70 米，230 V 欧标供电，CE 认证，燃烧性能等级符合 EN 13501-1。
 
-三、客人在舱内应当体验到什么
+三、"健康与长寿"对我们意味着什么
 
-（1）安静。客人关上门，城市就消失了。我们的目标是酒店标准，而非办公舱标准：墙体 Rw 不低于 52 分贝，门不低于 50 分贝，使舱内即使在车站或办公楼大堂内也能保持在世界卫生组织 30 分贝（A）的卧室指导值以下。门密封、地板解耦、空调穿墙处加消声器，低速运行时听不到风机。凭借贵司在声学领域的核心能力，声博士或许正是我们在这方面最合适的合作伙伴。
+我们不承诺医疗效果。科学结论很明确：最有效的健康杠杆其实很简单——在黑暗、安静、凉爽、通风良好的房间里，规律地获得充足睡眠。2024 年一项基于英国生物样本库 61,000 人的分析显示，睡眠最规律的人群全因死亡率比最不规律的人群低 20–48%。一小时以内的小睡没有显示心血管风险，而超过一小时的小睡则有。因此我们的产品是"最优质的休息"——从短暂小睡到整晚睡眠——被工程化地装进一个 5 平方米的舱体里，而且我们会测量并展示它的效果：每位客人都可以看到自己此次住宿的 CO2、噪声和温度数据。
 
-（2）清新、凉爽的空气。我们希望采用贵司新开发的集制热、制冷与空气净化于一体的空调机组，并选用通过抵消声波实现静音的版本。客人可将温度自 16 °C 起自行设定（我们预期范围约为 16–26 °C，默认 20 °C）。CO2 传感器控制新风供给，使整夜 CO2 保持在 1,000 ppm 以下（约 750 ppm 时自动增强），因为气候舱研究表明在此水平以下睡眠明显更深、夜醒更少。HEPA 加活性炭过滤，湿度 40–60%，客人更替之间的 20 分钟重置期内完成一次完整换气，不使用负离子、臭氧或"等离子"设备。机组安装在舱顶，计入 2.70 米总高；机组的热量和冷凝水需要有通往主体建筑的明确路径。
+具体而言，我们希望在每间舱体中集成六个层面：
 
-（3）跟随生物钟的光。带真白光的 RGBW 系统：红、绿、蓝加暖白和冷白通道（RGB+CCT），白光始终来自白光通道而非 RGB 混色，色温 2200–6500 K 可调，显色指数不低于 90，无频闪驱动（PstLM ≤ 1，SVM ≤ 0.4）。到达时明亮偏冷，放松阶段低于 10 黑视素勒克斯，睡眠时低于 1 勒克斯且所有状态指示灯关闭，起床时间前 30 分钟的日出。地面导引线不常亮：仅当客人双脚触地时（由离床传感器检测）以微弱的红/琥珀色光（地面 5–20 勒克斯）点亮，客人回到床上或两分钟后自动熄灭。控制方面我们不局限于 DALI：任何控制器或软件均可，只要具备开放、有文档的 API，可与我们自己的 App 对接（DALI、Casambi、Zigbee、Matter 或贵司自有控制器均可）。
+（1）安静。我们的目标是酒店标准，而非办公舱标准：墙体 Rw 不低于 52 分贝，门不低于 50 分贝，使舱内即使在车站或办公楼大堂内也能保持在世界卫生组织 30 分贝（A）的卧室指导值以下。门密封、地板解耦、空调穿墙处加消声器，低速运行时听不到风机。凭借贵司在声学领域的核心能力，声博士或许正是我们在这方面最合适的合作伙伴。
 
-日出是最重要的灯光场景，以下是我们的设想。它在起床时间前 30 分钟从完全黑暗开始，按感知平滑的调光曲线运行（对数曲线，无可见台阶）：
+（2）空气与气候。我们希望采用贵司新开发的集制热、制冷与空气净化于一体的空调机组，并选用通过抵消声波实现静音的版本。我们的要求：客人可调温度自 16 °C 起（我们预期范围约为 16–26 °C，默认 20 °C）；由 CO2 传感器控制的新风供给，使整夜 CO2 保持在 1,000 ppm 以下（约 750 ppm 时自动增强），因为气候舱研究表明在此水平以下睡眠明显更深、夜醒更少；HEPA 加活性炭过滤；湿度 40–60%；客人更替之间的 20 分钟重置期内完成一次完整换气；不使用负离子、臭氧或"等离子"设备。机组安装在舱顶，计入 2.70 米总高；机组的热量和冷凝水需要有通往主体建筑的明确路径。
+
+（3）光。带真白光的 RGBW 系统：红、绿、蓝加暖白和冷白通道（RGB+CCT），白光始终来自白光通道而非 RGB 混色，色温 2200–6500 K 可调，显色指数不低于 90，无频闪驱动（PstLM ≤ 1，SVM ≤ 0.4）。场景：到达时明亮偏冷，放松阶段低于 10 黑视素勒克斯，睡眠时低于 1 勒克斯且所有状态指示灯关闭，起床时间前 30 分钟的日出。地面导引线不常亮：仅当客人双脚触地时（由离床传感器检测）以微弱的红/琥珀色光（地面 5–20 勒克斯）点亮，客人回到床上或两分钟后自动熄灭。控制方面我们不局限于 DALI：任何控制器或软件均可，只要具备开放、有文档的 API，可与我们自己的 App 对接（DALI、Casambi、Zigbee、Matter 或贵司自有控制器均可）。
+
+日出是最重要的灯光场景，以下是我们的规格。它在起床时间前 30 分钟从完全黑暗开始，按感知平滑的调光曲线运行（对数曲线，无可见台阶）：
 
 | 分钟 | 色温 | 眼位照度 | 通道 |
 |---|---|---|---|
@@ -125,14 +140,16 @@ HAVN 正在欧洲城市的商业建筑内打造私密休憩空间网络：城市
 
 健康舱 20 分钟小睡时，同一序列压缩至约 5 分钟。晚间放松则在 20–30 分钟内反向运行：2700 K → 2200 K → 琥珀色，眼位照度从约 20 勒克斯降至 1 勒克斯以下。
 
-（4）无窗之处的窗。我们的舱体没有真实窗户，所以希望给客人"有窗"的感觉。目前有两类产品：
+（4）虚拟窗。我们的舱体没有真实窗户，所以希望给客人"有窗"的感觉。目前有两类产品：
    - "人造天空"面板（基于瑞利散射的 LED 灯具，如 Innerscene、CoeLux、Yeelight Pro 以及多家广东 OEM 厂商）：呈现蓝天与暖色太阳，产生真实的纵深感和日光感。大多数需要 19–27 厘米的安装深度和 80–200 瓦功率，因此只能作为舱顶开口、机壳置于舱顶之上，且仅适用于主体建筑在 2.70 米之上仍留有该空间的场所。其中一款（Innerscene Circadian Sky，有天空无太阳）仅 84 毫米厚，可以平嵌在墙板中。
    - 薄型 LED"虚拟窗"或天窗灯箱（侧入光，厚约 45–85 毫米，450 x 1200 或 600 x 1200 毫米）：光通量较小，但可以嵌入 10 厘米的墙板或安装在天花，多家中国 OEM 厂商有此类产品。
    随机对照研究表明，这类窗户能降低无窗房间中的紧张感、焦虑和幽闭感，改善情绪。三个实际要点：竖向 450 x 1200 面板可以装在一个 80 厘米宽的墙板模块内；在 10 厘米厚的吸音板中嵌入灯具会减少质量、形成隔音薄弱点，因此我们更倾向于安装在顶板或采用 46 毫米厚的明装灯箱；窗户夜间必须能硬关断，纳入同一套灯光控制（早晨成为"日出"），其发热需导入贵司机组的气流。
 
 （5）声音与语音。每舱两只扬声器（立体声）而非一只，音质干净、品质好：不需要夸张的音响效果，重点不在于"音响体验"，而是人声、声景和掩蔽声都能清晰、舒适地呈现。另加一个麦克风；扬声器和麦克风均接入舱体控制器并提供音频接口或 API。扬声器播放自然声景、粉噪/棕噪掩蔽声（默认关闭）以及 10 分钟呼吸引导或"非睡眠深度休息"音频。麦克风有两个用途：睡眠报告中的鼾声检测，以及语音控制。HAVN 将在这套硬件上加入 AI 语音助手：客人可以用语音设置灯光、温度、声音和起床时间，并向助手询问有关住宿和睡眠的问题。舱体本身只需提供音频硬件和开放 API，助手由 HAVN 提供。出于隐私考虑，麦克风需配带指示灯的硬件静音开关，音频尽可能在本地处理。
 
-（6）一张真正的床，和一个知道你何时入睡的房间。每种舱型均配普通床：优质床垫、拉链式可水洗保护套、可选枕头、加厚被子选项以及可选加重毯；可选薰衣草香氛盒（中等证据支持更快入睡）。每间舱体配备一套小型传感器：非接触式 60 GHz 雷达模块（呼吸、心率、体动、在床和离床状态——离床同时触发地面导引灯，并在重置时确认舱内无人），以及 CO2、温度、湿度和噪声传感器。客人可自愿选择在住宿后获得一份简要睡眠报告，房间也能在浅睡的柔性时间窗内唤醒客人。日本的 Nine Hours 已经这样做；在欧洲尚无人做，这将是真正的差异化优势。
+（6）床、香氛与传感。每种舱型均配普通床：优质床垫、拉链式可水洗保护套、可选枕头、加厚被子选项以及可选加重毯；可选薰衣草香氛盒（中等证据支持更快入睡）。每间舱体配备一套小型传感器：非接触式 60 GHz 雷达模块（呼吸、心率、体动、在床和离床状态——离床同时触发地面导引灯，并在重置时确认舱内无人），以及 CO2、温度、湿度和噪声传感器。客人可自愿选择在住宿后获得一份简要睡眠报告，房间也能在浅睡的柔性时间窗内唤醒客人。日本的 Nine Hours 已经这样做；在欧洲尚无人做，这将是真正的差异化优势。
+
+对我们而言，首台舱体起的核心是：安静的舱体和门、空调机组、带日出的灯光、完全遮光、接入开放 API 控制器的扬声器、麦克风和传感器，以及为虚拟窗预留的顶板或墙面位置。人造天空面板、床面制冷、香氛和加重毯可以后续加入；声学床和按摩属于实验性配置。
 
 四、健康舱
 
@@ -140,7 +157,16 @@ HAVN 正在欧洲城市的商业建筑内打造私密休憩空间网络：城市
 
 五、材料、可持续性与合规
 
-可持续性对我们很重要：舱体应当对客人和环境都是健康的。我们会委托独立机构检测整舱成品的生态性能和污染物排放（甲醛按欧盟 REACH 新限值 0.062 mg/m³，VOC 按德国 AgBB 方案，以及邻苯二甲酸酯和阻燃剂等高关注物质），需要欧盟防火等级（EN 13501-1，饰面 B-s1,d0）以及电气部分和空调机组的 CE 文件，并希望了解板式系统的再生材料比例、可回收性和可维修性，以及机组和照明的能耗。完整清单见附件；对于出口欧洲的制造商而言这些都不陌生，我们也很乐意与贵司一起逐项讨论。
+可持续性对我们很重要：舱体应当对客人和环境都是健康的，因此我们会委托独立机构检测其生态性能和污染物排放。对每家制造商而言，这意味着：
+
+- 板材 ENF 或 E0 级：自 2026 年 8 月 6 日起，欧盟 REACH 法规将家具及木质制品的甲醛释放限值定为 0.062 mg/m³（气候箱法），中国 E1 板材已不再合规。我们需要 ISO 17025 实验室出具的整舱成品气候箱检测报告，以及墙板、顶板和地板组合件的 28 天低 VOC 检测报告（德国 AgBB 方案）。
+- 符合 EN 13501-1 的燃烧性能等级，由欧盟认可实验室出具（而非 GB 8624）：所有外露饰面 B-s1,d0，地板 Cfl-s1，软包按 EN 1021；烟感探测器安装位并接入建筑报警系统，顶板预留喷淋下垂喷头或穿管位置，门在任何情况下均可从内部无钥匙、无电开启，总电源隔离开关可从外部操作。
+- 整舱及门的声学检测报告（EN ISO 10140 / ISO 23351-1）。
+- 电气部分的 CE 认证（低电压、电磁兼容、RoHS；无线部分按 RED），附 TÜV、SGS 或 Intertek 的 CB 体系报告、所有设备运行状态下的整舱 EMC 测试、每个光源的 EN 62471 光生物安全报告，以及空调机组的 CE 文件（含制冷剂类型和欧盟含氟气体法规要求）。
+- 无 PVC、无邻苯二甲酸酯的表面材料，可水洗纺织品。
+- 可持续性：我们希望了解板材、泡棉和毛毡的再生材料比例，材料在使用寿命结束时能否分离和回收，单块面板能否维修或更换，以及空调机组和照明的能耗。对整舱成品进行污染物检测（甲醛、VOC、邻苯二甲酸酯和阻燃剂等高关注物质）是我们验收的一部分。
+
+对于出口欧洲的制造商而言这些都不陌生，我们也很乐意与贵司一起逐项讨论。
 
 六、我们希望与您探讨的问题
 
@@ -151,7 +177,7 @@ HAVN 正在欧洲城市的商业建筑内打造私密休憩空间网络：城市
 - 您会把虚拟窗放在顶板还是墙板？贵司在广东是否有此类面板的合作伙伴？
 - 贵司会建议哪种控制器？它是否具备可供我们的 App、两只扬声器和麦克风使用的开放、有文档的 API？
 
-我们非常希望与您和贵司总工程师通过视频会议详细讨论，最好在下周。贵司已收到我们的技术图纸。再次感谢您的热情接待，期待与贵司携手推进。
+我们明天可能还会一起用餐，并且会在广州停留到周日，因此可以当面讨论以上所有内容；当然，随时也可以与贵司总工程师进行视频会议。贵司已收到我们的技术图纸。再次感谢您的热情接待，期待与贵司携手推进。
 
 此致
 敬礼！
